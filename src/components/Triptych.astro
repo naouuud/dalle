@@ -1,0 +1,47 @@
+---
+import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url";
+import { sanityClient } from "sanity:client";
+
+interface Triptych {
+    left: any,
+    center: any,
+    right: any
+}
+
+const POST_QUERY = `*[_type == "triptych"][0]`;
+const triptych = await sanityClient.fetch<Triptych>(POST_QUERY);
+
+const { projectId, dataset } = sanityClient.config();
+const urlFor = (source: SanityImageSource) =>
+  projectId && dataset
+    ? createImageUrlBuilder({ projectId, dataset }).image(source)
+    : null;
+const imageURLs = [
+  triptych.left?.image ? urlFor(triptych.left.image)?.url() : null,
+  triptych.center?.image ? urlFor(triptych.center.image)?.url() : null,
+  triptych.right?.image ? urlFor(triptych.right.image)?.url() : null,
+];
+const imageAlts = [
+  triptych.left?.alt ? triptych.left.alt : "",
+  triptych.left?.alt ? triptych.left.alt : "",
+  triptych.left?.alt ? triptych.left.alt : "",
+]
+const array = [{
+    url: imageURLs[0], alt: imageAlts[0]
+}, {
+    url: imageURLs[1], alt: imageAlts[1]
+}, {
+    url: imageURLs[2], alt: imageAlts[2]
+}]
+---
+<section>
+    {
+      array.map((item) =>  (
+        <img class="flex-1"
+          src={item.url}
+          alt={item.alt} 
+        />
+      ))
+    }
+</section>
+

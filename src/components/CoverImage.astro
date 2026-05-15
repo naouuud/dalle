@@ -1,0 +1,27 @@
+---
+import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url";
+import type { SanityDocument } from "sanity";
+import { sanityClient } from "sanity:client";
+
+const POST_QUERY = `*[_type == "coverImage"][0]`;
+const post = await sanityClient.fetch<SanityDocument>(POST_QUERY);
+
+const { projectId, dataset } = sanityClient.config();
+const urlFor = (source: SanityImageSource) =>
+  projectId && dataset
+    ? createImageUrlBuilder({ projectId, dataset }).image(source)
+    : null;
+const postImageUrl = post.image
+  ? urlFor(post.image)?.url()
+  : null;
+---
+<section>
+    {
+      postImageUrl && (
+        <img
+          src={postImageUrl}
+          alt={post.alt as string} 
+        />
+      )
+    }
+</section>

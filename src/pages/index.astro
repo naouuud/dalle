@@ -1,38 +1,30 @@
 ---
-import type { SanityDocument } from "@sanity/client";
-import { sanityClient } from "sanity:client";
 import MainLayout from "../layouts/main.astro"
 import Navbar from "../components/Navbar.astro"
-import CoverImage from "../components/CoverImage.astro"
-import Philosophy from "../components/Philosophy.astro";
-import Triptych from "../components/Triptych.astro";
-// export const layout = MainLayout;
+import ContainerLayout from "../layouts/container.astro";
+import Reel from "../components/Reel.astro";
+import Grid from "../components/Grid.astro";
 
-
-const POSTS_QUERY = `*[
-  _type == "post"
-  && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
-
-const posts = await sanityClient.fetch<SanityDocument[]>(POSTS_QUERY);
+export const GRID = true;
 ---
 
-<MainLayout>
-	<main class="container mx-auto min-h-screen max-w-3xl">
-		<Navbar />
-		<CoverImage />
-		<Philosophy />
-		<Triptych />
-		<!-- <h1 class="text-4xl font-bold mb-8">Posts</h1>
-		<ul class="flex flex-col gap-y-4">
-		{posts.map((post) => (
-			<li class="hover:underline">
-				<a href={`/posts/${post.slug.current}`}>
-				<h2 class="text-xl font-semibold">{post.title}</h2>
-				<p>{new Date(post.publishedAt).toLocaleDateString()}</p>
-				</a>
-			</li>
-			))}
-		</ul> -->
-	</main>
-</MainLayout>
+{
+  GRID ? (
+    <MainLayout page="Artist">
+      <main class="mx-auto min-h-screen max-w-3xl lg:flex">
+        <Navbar />
+        <Grid />
+      </main>
+    </MainLayout>
+  ) : (
+    <MainLayout page="Artist">
+      <main class="mx-auto min-h-screen max-w-3xl lg:flex">
+        <Navbar />
+		<ContainerLayout>
+          <Reel />
+        </ContainerLayout>
+      </main>
+    </MainLayout>
+  )
+}
+

@@ -1,0 +1,35 @@
+---
+import { type SanityDocument } from "@sanity/client"
+import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url";
+import { sanityClient } from "sanity:client"
+
+const POST_QUERY = `*[_type == "reel"][0]`
+const reel = await sanityClient.fetch<SanityDocument>(POST_QUERY)
+
+const { projectId, dataset } = sanityClient.config();
+const urlFor = (source: SanityImageSource) => 
+  projectId && dataset
+    ? createImageUrlBuilder({ projectId, dataset }).image(source)
+    : null;
+---
+<div class="grid grid-cols-3">
+    {
+      reel.reelItems.map(({ imageItem, title, slug }: { imageItem: {image: SanityImageSource, alt: string }; title: string; slug: {current: string} }) => (
+        <div>
+            {
+                slug.current ? (
+                    <a href={"work/" + slug.current}>
+                        <img
+                            src={urlFor(imageItem.image)?.width(800).crop("bottom").url()}
+                            alt={imageItem.alt}
+                            class="aspect-2/3 w-full object-cover"
+                        />
+                    </a>
+                ) : (
+                    <img src={urlFor(imageItem.image)?.width(800).url()} alt={imageItem.alt} />
+                )
+            }
+        </div>
+      ))
+    }
+</div>

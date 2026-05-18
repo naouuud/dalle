@@ -17,9 +17,9 @@ const urlFor = (source: SanityImageSource) =>
     ? createImageUrlBuilder({ projectId, dataset }).image(source)
     : null;
 const imageURLs = [
-  triptych.left?.image ? urlFor(triptych.left.image)?.url() : null,
-  triptych.center?.image ? urlFor(triptych.center.image)?.url() : null,
-  triptych.right?.image ? urlFor(triptych.right.image)?.url() : null,
+  triptych.left?.image ? urlFor(triptych.left.image)?.width(800).height(500).blur(50).url() : null,
+  triptych.center?.image ? urlFor(triptych.center.image)?.width(800).height(500).blur(50).url() : null,
+  triptych.right?.image ? urlFor(triptych.right.image)?.width(800).height(500).blur(50).url() : null,
 ];
 const imageAlts = [
   triptych.left?.alt ? triptych.left.alt : "",
@@ -33,15 +33,21 @@ const array = [{
 }, {
     url: imageURLs[2], alt: imageAlts[2]
 }]
+
+const menuList = ["Story", "Portfolio", "CV"]
+
 ---
-<section>
+<div class="lg:flex">
     {
-      array.map((item) =>  (
-        <img class="flex-1"
-          src={item.url}
-          alt={item.alt} 
-        />
+      array.map((item, index) =>  (
+        <div class="relative">
+          <img
+            src={item.url}
+            alt={item.alt}
+            class="rounded-sm"
+          />
+        <div class="text-white/50 text-4xl absolute inset-y-1/2">{menuList[index]}</div>
+        </div>
       ))
     }
-</section>
-
+</div>

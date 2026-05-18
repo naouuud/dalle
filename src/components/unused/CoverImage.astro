@@ -12,16 +12,17 @@ const urlFor = (source: SanityImageSource) =>
     ? createImageUrlBuilder({ projectId, dataset }).image(source)
     : null;
 const postImageUrl = post.image
-  ? urlFor(post.image)?.url()
+  ? urlFor(post.image)?.width(800).invert(false).url()
   : null;
 ---
-<section>
+
+<div>
     {
       postImageUrl && (
         <img
           src={postImageUrl}
-          alt={post.alt as string} 
+          alt={post.alt as string}
         />
       )
     }
-</section>
+</div>

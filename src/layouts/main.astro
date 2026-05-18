@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
-const { content } = Astro.props
+const { page } = Astro.props
+import { ClientRouter } from 'astro:transitions';
 ---
 
 <html lang="en">
@@ -9,9 +10,10 @@ const { content } = Astro.props
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<title>Rumi Dalle</title>
+		<title>Rumi Dalle &ndash; {page ? page : "Artist"}</title>
+		<ClientRouter />
 	</head>
-	<body>
+	<body class="mb-10">
 		<slot />
 	</body>
 </html>

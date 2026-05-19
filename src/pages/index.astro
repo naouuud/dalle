@@ -4,25 +4,27 @@ import Navbar from "../components/Navbar.astro"
 import ContainerLayout from "../layouts/container.astro";
 import Reel from "../components/Reel.astro";
 import Grid from "../components/Grid.astro";
+import Menu from "../components/Menu.astro";
 
-export const GRID = true;
+export const GRID = false;
 ---
-
 {
   GRID ? (
     <MainLayout page="Artist">
-      <main class="mx-auto min-h-screen max-w-3xl lg:flex">
+	  <Menu />
+      <main id="page" class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl lg:flex">
         <Navbar />
-        <Grid />
+	    <Grid />
       </main>
     </MainLayout>
   ) : (
     <MainLayout page="Artist">
-      <main class="mx-auto min-h-screen max-w-3xl lg:flex">
+	  <Menu />
+      <main id="page" class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl lg:flex">
         <Navbar />
-		<ContainerLayout>
-          <Reel />
-        </ContainerLayout>
+	    {/* <ContainerLayout> */}
+			<Reel />
+		{/* </ContainerLayout> */}
       </main>
     </MainLayout>
   )

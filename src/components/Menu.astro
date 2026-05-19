@@ -1,10 +1,93 @@
 ---
-const menuList = ["Story", "Performance", "Sculpture", "CV"]
-import ContainerLayout from "../layouts/container.astro"
+const menuList = ["Artist", "Collaborations", "Contact"]
 ---
+<div
+  id="backdrop"
+  class="
+    fixed inset-0 z-40
+    bg-black/30
+    opacity-0 pointer-events-none
+    transition-opacity duration-500
+  "
+></div>
 
-<ContainerLayout>
-    <div class="">
-        {menuList.map((item) => <div class="flex items-center justify-center py-4 text-gray-500">{item}</div>)}
-    </div>
-</ContainerLayout>
+<aside
+  id="menu"
+  class="
+    fixed right-0 top-0 z-50
+    flex h-dvh w-72 flex-col
+    bg-white px-8 py-12
+    shadow-2xl
+    translate-x-full
+    transition-transform duration-500 ease-out
+  "
+>
+  <!-- Close button -->
+  <div class="flex justify-end">
+    <button
+      id="menu-button"
+      type="button"
+      aria-label="menu"
+      aria-expanded="false"
+      class="text-2xl"
+    >
+      ← <span class="text-lg uppercase">Back</span>
+    </button>
+  </div>
+
+  <!-- Menu items -->
+  <nav class="mt-12 flex flex-col gap-8">
+    {menuList.map((item) => (
+      <a
+        href={item.toLowerCase()}
+        class="
+          text-xl tracking-widest
+          transition-all duration-300
+          hover:translate-x-2 hover:opacity-60
+        "
+      >
+        {item}
+      </a>
+    ))}
+  </nav>
+</aside>
+
+<script>
+  const menu = document.getElementById("menu");
+  const backdrop = document.getElementById("backdrop");
+  const button = document.getElementById("menu-button");
+  const page = document.getElementById("page");
+
+  let open = false;
+
+  function setMenu(state: any) {
+    open = state;
+
+    // menu animation
+    menu?.classList.toggle("translate-x-0", open);
+    menu?.classList.toggle("translate-x-full", !open);
+
+    // backdrop animation
+    backdrop?.classList.toggle("opacity-100", open);
+    backdrop?.classList.toggle("pointer-events-auto", open);
+    backdrop?.classList.toggle("opacity-0", !open);
+    backdrop?.classList.toggle("pointer-events-none", !open);
+
+    // aria state
+    button?.setAttribute("aria-expanded", String(open));
+
+    page?.classList.toggle("-translate-x-24", open);
+  }
+
+  window.addEventListener("toggle-menu", () => {
+    setMenu(!open);
+  });
+
+  button?.addEventListener("click", () => {
+    setMenu(false);
+  });
+
+  backdrop?.addEventListener("click", () => {
+    setMenu(false);
+  });
+</script>

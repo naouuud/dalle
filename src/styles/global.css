@@ -26,6 +26,10 @@ html {
   margin-bottom: 1rem;
 }
 
+html {
+  margin: 0;
+}
+
 html,
 body {
   scroll-behavior: smooth;

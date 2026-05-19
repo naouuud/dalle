@@ -3,14 +3,22 @@ const firstName = "Rumi"
 const lastName = "Dalle"
 ---
 
-<div class="flex justify-between items-center pt-4 px-4 mb-3">
-    <div></div>
+<div class="flex justify-center items-center pt-4 px-4 mb-3">
     <h1 class="font-semibold text-3xl lg:text-7xl uppercase">{firstName}{" "}{lastName}</h1>
-    <a class="hamburger" role="button" aria-label="menu" aria-expanded="false">
+    <button id="burger" type="button" class="hamburger absolute right-4" aria-label="menu" aria-expanded="false">
       <span></span>
       <span></span>
       <span></span>
       <span></span>
-    </a>
+    </>
 </div>
+
+<script>
+  const burger = document.getElementById("burger");
+
+  burger?.addEventListener("click", () => {
+    window.dispatchEvent(new CustomEvent("toggle-menu"));
+  });
+</script>
+ 
 

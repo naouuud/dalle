@@ -1,6 +1,6 @@
 ---
 import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url";
-import type { SanityDocument } from "sanity";
+import type { SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
 
 const POST_QUERY = `*[_type == "coverImage"][0]`;

@@ -12,7 +12,7 @@ const urlFor = (source: SanityImageSource) =>
     ? createImageUrlBuilder({ projectId, dataset }).image(source)
     : null;
 ---
-<div class="grid grid-cols-3">
+<div class="grid grid-cols-2 mb-20">
     {
       reel.reelItems.map(({ imageItem, title, slug }: { imageItem: {image: SanityImageSource, alt: string }; title: string; slug: {current: string} }) => (
         <div>
@@ -22,7 +22,7 @@ const urlFor = (source: SanityImageSource) =>
                         <img
                             src={urlFor(imageItem.image)?.width(800).crop("bottom").url()}
                             alt={imageItem.alt}
-                            class="aspect-2/3 w-full object-cover"
+                            class="aspect-square w-full object-cover"
                         />
                     </a>
                 ) : (

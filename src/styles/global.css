@@ -19,7 +19,7 @@
 
 html {
   font-family:
-    "Raleway",
+    "Roboto",
     system-ui,
     -apple-system,
     sans-serif;
@@ -49,8 +49,8 @@ body {
 .hamburger {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 28px;
+  justify-content: space-around;
+  width: 36px;
   height: 20px;
   background: none;
   border: none;
@@ -61,9 +61,43 @@ body {
 
 .hamburger span {
   display: block;
-  height: 0.1rem;
+  height: 0.08rem;
   background: currentColor;
   border-radius: 2px;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/roboto/Roboto-VariableFont_wdth,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("/fonts/roboto/Roboto-Italic-VariableFont_wdth,wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/raleway/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter/Inter-Italic-VariableFont_opsz,wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {

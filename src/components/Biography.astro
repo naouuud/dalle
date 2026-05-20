@@ -4,7 +4,6 @@ import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url
 import { PortableText } from "astro-portabletext"
 import { sanityClient } from "sanity:client"
 
-
 const POST_QUERY = `*[_type == "profilePic"][0]`
 const post = await sanityClient.fetch<SanityDocument>(POST_QUERY)
 
@@ -17,13 +16,17 @@ const imageURL = post.imageItem?.image
   ? urlFor(post.imageItem?.image)?.url()
   : null;
 ---
-<div class="flex flex-col justify-center items-center gap-2">
+<article class="prose leading-6 font-extralight flex flex-col gap-4 px-1">
+    <p>I work across image, text, and spatial composition to explore the unstable relationship between memory and perception. My practice is driven less by narrative than by atmosphere — an attempt to construct emotional environments that feel suspended between recognition and ambiguity.</p>
+    <p>Much of the work begins with fragments: overheard conversations, architectural traces, recurring dreams, degraded photographs, or moments of stillness encountered in transit. These materials are translated through processes of layering, repetition, and distortion, allowing images to emerge slowly rather than arrive fully formed.</p>
+</article>
+<!-- <div class="flex flex-col justify-center items-center gap-2">
     <div>
         <img src={imageURL} alt={post.alt as string}>
     </div>
     <a href="biography" class="font-semibold uppercase">Biography &#8594;</a>
-    <!-- <div class="flex-1 p-2 text-center">
+      <div class="flex-1 p-2 text-center">
         <p class="font-semibold">Rumi Dalle</p>
         <p class="prose">{Array.isArray(post.biography) && <PortableText value={post.biography} />}
-    </div> -->
-</div>
+      </div>
+</div> -->

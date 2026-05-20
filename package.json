@@ -25,6 +25,7 @@
     "react-dom": "^19.2.6",
     "react-is": "^19.2.6",
     "sanity": "^5.25.1",
+    "simple-icons": "^16.20.0",
     "styled-components": "^6.4.1",
     "tailwindcss": "^4.2.1"
   },

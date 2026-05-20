@@ -1,0 +1,9 @@
+---
+import SocialMedia from "./SocialMedia.astro";
+
+const year = new Date().getFullYear();
+---
+<div class="font-light flex justify-between pl-2 pr-4">
+    <div>&copy; {year ? year : "2026"} Rumi Dalle</div>
+    <SocialMedia />
+</div>

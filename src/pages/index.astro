@@ -5,8 +5,10 @@ import ContainerLayout from "../layouts/container.astro";
 import Reel from "../components/Reel.astro";
 import Grid from "../components/Grid.astro";
 import Menu from "../components/Menu.astro";
+import Biography from "../components/Biography.astro";
+import Footer from "../components/Footer.astro"
 
-export const GRID = false;
+export const GRID = true;
 ---
 {
   GRID ? (
@@ -14,7 +16,11 @@ export const GRID = false;
 	  <Menu />
       <main id="page" class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl lg:flex">
         <Navbar />
-	    <Grid />
+		<Grid />
+		<ContainerLayout>
+			<Biography />
+			<Footer />
+		</ContainerLayout>
       </main>
     </MainLayout>
   ) : (
@@ -22,9 +28,11 @@ export const GRID = false;
 	  <Menu />
       <main id="page" class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl lg:flex">
         <Navbar />
-	    {/* <ContainerLayout> */}
+	    <ContainerLayout>
 			<Reel />
-		{/* </ContainerLayout> */}
+			<Biography />
+			<Footer />
+		</ContainerLayout>
       </main>
     </MainLayout>
   )

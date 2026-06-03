@@ -3,20 +3,16 @@ const firstName = "Rumi"
 const lastName = "Dalle"
 ---
 
-<div class="flex justify-start items-center pt-4 px-6 mb-16">
-    <!-- <h1 class="font-semibold text-3xl lg:text-7xl uppercase"><a href="">{firstName}{" "}{lastName}</a></h1> -->
-    <h1 class="text-3xl lg:text-7xl"><a href="">{firstName}</a></h1>
-    <button id="burger" type="button" class="hamburger absolute right-4" aria-label="menu" aria-expanded="false">
+<div class="fixed top-0 left-0 w-full z-50 flex items-center pt-4 px-4 mb-8">
+    <h1 class="flex-1 text-2xl lg:text-7xl"><a href="">{firstName}{' '}{lastName}</a></h1>
+    <button id="burger" type="button" class="hamburger" aria-label="menu" aria-expanded="false">
       <span></span>
       <span></span>
-      <span></span>
-      <!-- <span></span> -->
-    </>
+    </button>
 </div>
 
 <script>
   const burger = document.getElementById("burger");
-
   burger?.addEventListener("click", () => {
     window.dispatchEvent(new CustomEvent("toggle-menu"));
   });

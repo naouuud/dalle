@@ -7,8 +7,9 @@ import Grid from "../components/Grid.astro";
 import Menu from "../components/Menu.astro";
 import Biography from "../components/Biography.astro";
 import Footer from "../components/Footer.astro"
+import CoverVideo from "../components/CoverVideo.astro";
 
-export const GRID = true;
+export const GRID = false;
 ---
 {
   GRID ? (
@@ -28,11 +29,13 @@ export const GRID = true;
 	  <Menu />
       <main id="page" class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl lg:flex">
         <Navbar />
-	    <ContainerLayout>
-			<Reel />
-			<Biography />
-			<Footer />
-		</ContainerLayout>
+        <CoverVideo>
+        </CoverVideo>  
+	      <ContainerLayout>
+			    <Reel />
+			    <Biography />
+			    <Footer />
+		    </ContainerLayout>
       </main>
     </MainLayout>
   )

@@ -19,7 +19,7 @@
 
 html {
   font-family:
-    "Roboto",
+    "Libre Franklin",
     system-ui,
     -apple-system,
     sans-serif;
@@ -51,7 +51,7 @@ body {
   flex-direction: column;
   justify-content: space-around;
   width: 36px;
-  height: 20px;
+  height: 16px;
   background: none;
   border: none;
   cursor: pointer;
@@ -64,6 +64,36 @@ body {
   height: 0.08rem;
   background: currentColor;
   border-radius: 2px;
+}
+
+.video-wrapper {
+  margin: 0;
+  margin-bottom: 16px;
+  padding: 0;
+  z-index: 0;
+}
+
+.video-wrapper video {
+  height: 100vh;
+  object-fit: cover;
+}
+
+@font-face {
+  font-family: "Libre Franklin";
+  src: url("/fonts/libre-franklin/LibreFranklin-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Libre Franklin";
+  src: url("/fonts/libre-franklin/LibreFranklin-Italic-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {

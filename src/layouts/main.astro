@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 const { page } = Astro.props
-import { ClientRouter } from 'astro:transitions';
 ---
 
 <html lang="en">
@@ -13,7 +12,7 @@ import { ClientRouter } from 'astro:transitions';
 		<title>Rumi Dalle &ndash; {page ? page : "Artist"}</title>
 		<!-- <ClientRouter /> -->
 	</head>
-	<body>
+	<body data-theme="light">
 		<slot />
 	</body>
 </html>

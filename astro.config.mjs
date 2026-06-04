@@ -5,16 +5,16 @@ import { defineConfig } from "astro/config";
 
 import sanity from "@sanity/astro";
 
+import preact from "@astrojs/preact";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [
-    sanity({
-      projectId: "8csa25en",
-      dataset: "production",
-      useCdn: false, // for static builds
-    }),
-  ],
+  integrations: [sanity({
+    projectId: "8csa25en",
+    dataset: "production",
+    useCdn: false, // for static builds
+  }), preact()],
 });

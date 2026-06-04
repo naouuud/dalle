@@ -1,15 +1,23 @@
 ---
 import MainLayout from "../layouts/main.astro"
-import Navbar from "../components/Navbar.astro"
+import Navbar from "../components/Navbar.tsx"
 import ContainerLayout from "../layouts/container.astro";
 import Reel from "../components/Reel.astro";
 import Grid from "../components/Grid.astro";
 import Menu from "../components/Menu.astro";
 import Biography from "../components/Biography.astro";
 import Footer from "../components/Footer.astro"
-import CoverVideo from "../components/CoverVideo.astro";
+import CoverVideo from "../components/CoverVideo.tsx";
+import { sanityClient } from "sanity:client";
 
 export const GRID = false;
+
+// Fetch cover video URLs (server side)
+const QUERY = `*[_type == "coverVideos"][0].videos[]{
+  "url": file.asset->url,
+  color
+}`;
+const videos = await sanityClient.fetch<{url: string, color: "dark" | "light"}[]>(QUERY);
 ---
 {
   GRID ? (
@@ -28,9 +36,8 @@ export const GRID = false;
     <MainLayout page="Artist">
 	  <Menu />
       <main id="page" class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl lg:flex">
-        <Navbar />
-        <CoverVideo>
-        </CoverVideo>  
+        <Navbar client:only="preact" />
+        <CoverVideo client:only="preact" videos={videos}/>
 	      <ContainerLayout>
 			    <Reel />
 			    <Biography />

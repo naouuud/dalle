@@ -1,15 +1,28 @@
-import { navbarTheme } from "../stores/theme";
+import { useEffect } from "preact/hooks";
+import { navbarTheme } from "../stores/nano";
 import { useStore as useNanoStore } from "@nanostores/preact";
 
 export default function Navbar() {
   const theme = useNanoStore(navbarTheme);
 
+  const openMenu = () => {
+    window.dispatchEvent(new CustomEvent("toggle-menu"));
+  };
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path.startsWith("/work")) {
+      document.getElementById("navbar")?.classList.add("bg-white");
+    }
+  });
+
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50 flex items-center pt-4 px-4 mb-8 ${theme === "dark" ? "text-white" : "text-black"}`}
+      id="navbar"
+      className={`fixed top-0 left-0 w-full flex items-center pt-4 pb-3 pl-4 pr-6 mb-8 ${theme === "dark" ? "text-white" : "text-black"}`}
     >
       <h1 className="flex-1 text-2xl lg:text-7xl">
-        <a href="">Rumi Dalle</a>
+        <a href="/">Rumi Dalle</a>
       </h1>
       <button
         id="burger"
@@ -17,22 +30,15 @@ export default function Navbar() {
         className="hamburger"
         aria-label="menu"
         aria-expanded="false"
+        onClick={openMenu}
       >
         <span></span>
         <span></span>
       </button>
     </div>
   );
-  {
-    /*   
-  <script>
-    const burger = document.getElementById("burger");
-    burger?.addEventListener("click", () => {
-      window.dispatchEvent(new CustomEvent("toggle-menu"));
-    });
-  </script> */
-  }
 }
-function useStore(navbarTheme: any) {
-  throw new Error("Function not implemented.");
-}
+
+// function useStore(navbarTheme: any) {
+//   throw new Error("Function not implemented.");
+// }

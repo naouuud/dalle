@@ -8,6 +8,10 @@
   }
 } */
 
+@view-transition {
+  navigation: auto;
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0%);
@@ -19,7 +23,7 @@
 
 html {
   font-family:
-    "Libre Franklin",
+    "Inter",
     system-ui,
     -apple-system,
     sans-serif;
@@ -71,6 +75,7 @@ body {
   margin-bottom: 16px;
   padding: 0;
   z-index: 0;
+  height: 100vh;
 }
 
 .video-wrapper video {
@@ -115,7 +120,7 @@ body {
 
 @font-face {
   font-family: "Inter";
-  src: url("/fonts/raleway/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+  src: url("/fonts/inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;

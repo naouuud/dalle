@@ -1,14 +1,13 @@
-import { navbarTheme } from "../stores/theme";
+import { navbarTheme } from "../stores/nano";
 import { useEffect, useState } from "preact/hooks";
 
-export default function CoverVideo({
-  videos,
-}: {
-  videos: { url: string; color: "dark" | "light" }[];
-}) {
-  const [selected] = useState(
-    () => videos[Math.floor(Math.random() * videos.length)],
-  );
+type Video = {
+  url: string;
+  color: "dark" | "light";
+};
+
+export default function CoverVideo({ videos }: { videos: Video[] }) {
+  const selected = videos[Math.floor(Math.random() * videos.length)];
 
   useEffect(() => {
     navbarTheme.set(selected.color);

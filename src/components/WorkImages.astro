@@ -1,0 +1,25 @@
+---
+import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url";
+import { sanityClient } from "sanity:client"
+
+const { images } = Astro.props;
+const { projectId, dataset } = sanityClient.config();
+const urlFor = (source: SanityImageSource) => 
+  projectId && dataset
+    ? createImageUrlBuilder({ projectId, dataset }).image(source)
+    : null;
+---
+<div class="flex flex-col gap-4">
+    {
+      images.map(
+        (image: any) => (
+          <div>
+              <img
+                src={urlFor(image.image)?.width(800).url()}
+                alt={image.alt}
+              /> 
+          </div>
+        ),
+      )
+    }
+</div>

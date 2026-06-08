@@ -9,42 +9,29 @@ import Biography from "../components/Biography.astro";
 import Footer from "../components/Footer.astro"
 import CoverVideo from "../components/CoverVideo.tsx";
 import { sanityClient } from "sanity:client";
+import type { SanityDocument } from "@sanity/client";
 
-export const GRID = false;
+// export const GRID = false;
 
 // Fetch cover video URLs (server side)
-const QUERY = `*[_type == "coverVideos"][0].videos[]{
+const COVER_VIDEO_QUERY = `*[_type == "coverVideos"][0].videos[]{
   "url": file.asset->url,
   color
 }`;
-const videos = await sanityClient.fetch<{url: string, color: "dark" | "light"}[]>(QUERY);
+const videos = await sanityClient.fetch<{url: string, color: "dark" | "light"}[]>(COVER_VIDEO_QUERY);
+
+const REEL_QUERY = `*[_type == "reel"][0]`
+const reel = await sanityClient.fetch<SanityDocument>(REEL_QUERY)
 ---
 {
-  GRID ? (
-    <MainLayout page="Artist">
-	  <Menu />
-      <main id="page" class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl lg:flex">
-        <Navbar />
-		<Grid />
-		<ContainerLayout>
-			<Biography />
-			<Footer />
-		</ContainerLayout>
-      </main>
-    </MainLayout>
-  ) : (
-    <MainLayout page="Artist">
-	  <Menu />
-      <main id="page" class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl lg:flex">
-        <Navbar client:only="preact" />
-        <CoverVideo client:only="preact" videos={videos}/>
-	      <ContainerLayout>
-			    <Reel />
-			    <Biography />
-			    <Footer />
-		    </ContainerLayout>
-      </main>
-    </MainLayout>
-  )
+  <MainLayout page="Artist">
+    <main class="mx-auto min-h-screen max-w-3xl lg:flex">
+      <CoverVideo client:only="preact" videos={videos}/>
+      <ContainerLayout>
+        <Reel reel={reel} />
+        <Biography />
+      </ContainerLayout>
+    </main>
+  </MainLayout>
 }
 

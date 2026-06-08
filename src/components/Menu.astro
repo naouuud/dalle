@@ -4,7 +4,7 @@ import SocialMedia from "./SocialMedia.astro"
 const menuList = ["Artist", "Collaborations", "Contact"]
 ---
 <div
-  id="backdrop"
+  id="menu-backdrop"
   class="
     fixed inset-0 z-40
     bg-black/30
@@ -44,10 +44,7 @@ const menuList = ["Artist", "Collaborations", "Contact"]
       <a
         href={item.toLowerCase()}
         class="
-          text-xl tracking-widest
-          transition-all duration-300
-          hover:translate-x-2 hover:opacity-60
-          uppercase
+          text-xl tracking-wide transition-all duration-300 hover:translate-x-2 hover:opacity-60 uppercase
         "
       >
         {item}
@@ -57,9 +54,9 @@ const menuList = ["Artist", "Collaborations", "Contact"]
   </nav>
 </aside>
 
-<!-- <script>
+<script>
   const menu = document.getElementById("menu");
-  const backdrop = document.getElementById("backdrop");
+  const backdrop = document.getElementById("menu-backdrop");
   const button = document.getElementById("menu-button");
   const page = document.getElementById("page");
 
@@ -95,4 +92,4 @@ const menuList = ["Artist", "Collaborations", "Contact"]
   backdrop?.addEventListener("click", () => {
     setMenu(false);
   });
-</script> -->
+</script>

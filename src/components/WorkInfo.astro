@@ -1,0 +1,23 @@
+---
+const { year, medium, body} = Astro.props;
+---
+<!-- <div
+  id="workinfo-backdrop"
+  class="
+    fixed inset-0
+    bg-black
+    opacity-0 pointer-events-none
+    transition-opacity duration-500
+  "
+></div> -->
+
+<div
+  id="work-info"
+  class="bg-white absolute px-2 top-10 w-full overflow-hidden max-h-0 transition-all duration-500"
+> 
+  <ul class="flex flex-col gap-2 font-light">
+    <li class="italic">{year}</li>
+    <hr>
+    <li>{body}</li>
+  </ul>
+</div>

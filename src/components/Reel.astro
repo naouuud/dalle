@@ -1,10 +1,8 @@
 ---
-import { type SanityDocument } from "@sanity/client"
 import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url";
 import { sanityClient } from "sanity:client"
 
-const POST_QUERY = `*[_type == "reel"][0]`
-const reel = await sanityClient.fetch<SanityDocument>(POST_QUERY)
+const { reel } = Astro.props;
 
 const { projectId, dataset } = sanityClient.config();
 const urlFor = (source: SanityImageSource) => 
@@ -17,7 +15,6 @@ const urlFor = (source: SanityImageSource) =>
       reel.reelItems.map(
         ({
           imageItem,
-          title,
           slug,
         }: {
           imageItem: { image: SanityImageSource; alt: string };

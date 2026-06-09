@@ -14,11 +14,11 @@ import type { SanityDocument } from "@sanity/client";
 // export const GRID = false;
 
 // Fetch cover video URLs (server side)
-const COVER_VIDEO_QUERY = `*[_type == "coverVideos"][0].videos[]{
+const VIDEO_QUERY = `*[_type == "coverVideos"][0].videos[]{
   "url": file.asset->url,
   color
 }`;
-const videos = await sanityClient.fetch<{url: string, color: "dark" | "light"}[]>(COVER_VIDEO_QUERY);
+const videos = await sanityClient.fetch<{url: string, color: "dark" | "light"}[]>(VIDEO_QUERY);
 
 const REEL_QUERY = `*[_type == "reel"][0]`
 const reel = await sanityClient.fetch<SanityDocument>(REEL_QUERY)

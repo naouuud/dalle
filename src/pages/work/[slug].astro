@@ -15,19 +15,12 @@ export async function getStaticPaths(): Promise<{ params: { slug: string } }> {
 
 const WORK_QUERY = `*[_type == "work" && slug.current == $slug][0]`;
 const work = await sanityClient.fetch<SanityDocument>(WORK_QUERY, Astro.params);
-    console.log("WORK", work)
-
 ---
 <MainLayout page={work.title}>
-    <!-- <div
-    id="backdrop"
-    class="
-        fixed inset-0
-        bg-black/30
-        opacity-0 pointer-events-auto
-        transition-opacity duration-500
-    "
-    ></div>     -->
+    <div
+    id="workinfo-backdrop"
+    class="fixed inset-0 z-40 bg-black/30 opacity-0 pointer-events-none"
+    ></div>
     <main class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl lg:flex">
       <ContainerLayout>
         <div class="flex flex-col gap-4 mt-18 relative">
@@ -47,26 +40,34 @@ const work = await sanityClient.fetch<SanityDocument>(WORK_QUERY, Astro.params);
     document.addEventListener("DOMContentLoaded", () => {
         const infoButton = document.getElementById("info-button");
         const workInfo = document.getElementById("work-info");
-        // const backdrop = document.getElementById("workinfo-backdrop");
+        const backdrop = document.getElementById("workinfo-backdrop");
 
-        if (!infoButton || !workInfo) return;
+        if (!infoButton || !workInfo || !backdrop) return;
 
         infoButton.addEventListener("click", () => {
             if (!open) {
                  // open
                 workInfo.classList.remove("max-h-0");
                 workInfo.classList.add("max-h-96", "pt-8", "pb-4");
+                backdrop.classList.remove("pointer-events-none");
+                backdrop.classList.add("pointer-events-auto");
+
             } else {
                 // close
                 workInfo.classList.remove("max-h-96", "pt-8", "pb-4");
                 workInfo.classList.add("max-h-0");
+                backdrop.classList.remove("pointer-events-auto");
+                backdrop.classList.add("pointer-events-none");
             }
             open = !open;
         });
-        // backdrop.addEventListener("click", () => {
-        //     console.log("BACKDROP CLICK")
-        //     workInfo.classList.add("opacity-0", "-translate-y-4", "pointer-events-none");
-        //     workInfo.classList.remove("opacity-100");
-        // });   
+        backdrop?.addEventListener("click", () => {
+            // close
+            workInfo.classList.remove("max-h-96", "pt-8", "pb-4");
+            workInfo.classList.add("max-h-0");
+            backdrop.classList.remove("pointer-events-auto");
+            backdrop.classList.add("pointer-events-none");
+            open = !open;
+        });   
     });
 </script>

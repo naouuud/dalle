@@ -18,14 +18,14 @@ const menuList = ["Artist", "Collaborations", "Contact"]
   class="
     fixed right-0 top-0 z-50
     flex h-dvh w-72 flex-col
-    bg-white px-8 py-12
+    bg-neutral-200 px-8 pt-12 pb-12
     shadow-2xl
     translate-x-full
     transition-transform duration-500 ease-out
   "
 >
   <!-- Close button -->
-  <div class="flex justify-end">
+  <!-- <div class="flex justify-end">
     <button
       id="menu-button"
       type="button"
@@ -33,25 +33,26 @@ const menuList = ["Artist", "Collaborations", "Contact"]
       aria-expanded="false"
       class="text-2xl"
     >
-      <!-- ←  -->
-      <span class="text-lg uppercase">{"<<<"}</span>
+      <span class="text-lg uppercase">{"<"}</span>
     </button>
-  </div>
+  </div> -->
 
   <!-- Menu items -->
-  <nav class="mt-12 flex flex-col gap-8">
-    {menuList.map((item) => (
-      <a
-        href={item.toLowerCase()}
-        class="
-          text-xl tracking-wide transition-all duration-300 hover:translate-x-2 hover:opacity-60 uppercase
-        "
-      >
-        {item}
-      </a>
-    ))}
+  <div class="flex flex-col gap-6">
+    <nav class="flex flex-col gap-2">
+      {menuList.map((item) => (
+        <a
+          href={item.toLowerCase()}
+          class="
+            text-xl tracking-normal transition-all duration-300 hover:translate-x-2 hover:opacity-60 uppercase
+          "
+        >
+          {item}
+        </a>
+      ))}
+    </nav>
     <SocialMedia />
-  </nav>
+  </div>
 </aside>
 
 <script>

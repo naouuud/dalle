@@ -12,7 +12,7 @@ export default function Navbar() {
   useEffect(() => {
     const path = window.location.pathname;
     if (path.startsWith("/work")) {
-      document.getElementById("navbar")?.classList.add("bg-white");
+      document.getElementById("navbar")?.classList.add("bg-neutral-100");
     }
   });
 

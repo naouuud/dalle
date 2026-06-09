@@ -1,7 +1,14 @@
 ---
 import SocialMedia from "./SocialMedia.astro"
+import ContactInfo from "./ContactInfo.astro";
+import MenuText from "./MenuText.astro";
 
-const menuList = ["Artist", "Collaborations", "Contact"]
+const menuList = ["About", "Collaborations", "Contact"];
+const aboutText = "Rumi is a multidisciplinary artist whose work explores memory, materiality, and the shifting relationship between the natural and constructed world. She lives and works in Beirut.";
+const collaborationsText = "Selected collaborations include projects with Hermès, Loewe, COS, and Aesop, spanning window installations, limited-edition objects, and brand storytelling initiatives.";
+const contactText = "For inquiries regarding works, commissions, or collaborations, please get in touch directly.";
+const textList = [aboutText, collaborationsText, contactText];
+
 ---
 <div
   id="menu-backdrop"
@@ -18,7 +25,7 @@ const menuList = ["Artist", "Collaborations", "Contact"]
   class="
     fixed right-0 top-0 z-50
     flex h-dvh w-72 flex-col
-    bg-neutral-200 px-8 pt-12 pb-12
+    bg-neutral-200 px-8 pt-8 pb-12
     translate-x-full
     transition-transform duration-500 ease-out
   "
@@ -38,18 +45,21 @@ const menuList = ["Artist", "Collaborations", "Contact"]
 
   <!-- Menu items -->
   <div class="flex flex-col gap-6">
-    <nav class="flex flex-col gap-2">
-      {menuList.map((item) => (
-        <a
-          href={item.toLowerCase()}
-          class="
-            text-xl tracking-normal transition-all duration-300 hover:translate-x-2 hover:opacity-60 uppercase
-          "
-        >
-          {item}
-        </a>
+    <div class="flex flex-col gap-1">
+      {menuList.map((item, i) => (
+        <div class="flex flex-col gap-1">
+          <button
+            data-index={i}
+            class="menu-item w-full text-start text-[20px] font-normal tracking-normal transition-all duration-300 hover:cursor-pointer uppercase"
+          >
+            {item}
+          </button>
+          <div class="menu-text max-h-0 overflow-hidden transition-all duration-500">
+            <MenuText item={item} text={textList[i]}/>
+          </div>
+        </div>
       ))}
-    </nav>
+    </div>
     <SocialMedia />
   </div>
 </aside>
@@ -57,7 +67,7 @@ const menuList = ["Artist", "Collaborations", "Contact"]
 <script>
   const menu = document.getElementById("menu");
   const backdrop = document.getElementById("menu-backdrop");
-  const button = document.getElementById("menu-button");
+  // const button = document.getElementById("menu-button");
   const page = document.getElementById("page");
 
   let open = false;
@@ -76,7 +86,7 @@ const menuList = ["Artist", "Collaborations", "Contact"]
     backdrop?.classList.toggle("pointer-events-none", !open);
 
     // aria state
-    button?.setAttribute("aria-expanded", String(open));
+    // button?.setAttribute("aria-expanded", String(open));
 
     page?.classList.toggle("-translate-x-24", open);
   }
@@ -85,11 +95,31 @@ const menuList = ["Artist", "Collaborations", "Contact"]
     setMenu(!open);
   });
 
-  button?.addEventListener("click", () => {
-    setMenu(false);
-  });
+  // button?.addEventListener("click", () => {
+  //   setMenu(false);
+  // });
 
   backdrop?.addEventListener("click", () => {
     setMenu(false);
   });
+
+  // Menu items
+  const menuItems = document.querySelectorAll(".menu-item");
+  const menuText = document.querySelectorAll(".menu-text");
+  for (const item of menuItems) {
+    item.addEventListener("click", () => {
+      const data = (item as HTMLElement).dataset.index;
+      if (!data) return;
+      const index = Number.parseInt(data);
+      for (let i = 0; i < menuText.length; i++) {
+        if (i === index) {
+          menuText[i].classList.toggle("max-h-0");
+          menuText[i].classList.toggle("max-h-96"); }
+        // } else {
+        //   menuText[i].classList.remove("max-h-96");
+        //   menuText[i].classList.add("max-h-0"); 
+        // }
+      }
+    })
+  }
 </script>

@@ -27,8 +27,10 @@ const reel = await sanityClient.fetch<SanityDocument>(REEL_QUERY)
   <MainLayout page="Artist">
     <main class="mx-auto min-h-screen max-w-3xl lg:flex">
       <CoverVideo client:only="preact" videos={videos}/>
-      <ContainerLayout>
+      <div class="mb-14">
         <Reel reel={reel} />
+      </div>
+      <ContainerLayout>
         <Biography />
       </ContainerLayout>
     </main>

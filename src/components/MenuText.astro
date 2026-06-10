@@ -4,6 +4,7 @@ import ContactInfo from "./ContactInfo.astro";
 const { item, text } = Astro.props; 
 ---
 <div class="flex flex-col gap-4 pb-4">
+    <hr>
     <p class="prose leading-6 hyphens-none text-[18px]">{text}</p>
     {item.toLowerCase() === "contact" && <ContactInfo />}
 </div>

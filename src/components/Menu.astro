@@ -10,6 +10,7 @@ const contactText = "For inquiries regarding works, commissions, or collaboratio
 const textList = [aboutText, collaborationsText, contactText];
 
 ---
+<!-- Backdrop -->
 <div
   id="menu-backdrop"
   class="
@@ -20,6 +21,7 @@ const textList = [aboutText, collaborationsText, contactText];
   "
 ></div>
 
+<!-- Menu -->
 <aside
   id="menu"
   class="
@@ -30,19 +32,6 @@ const textList = [aboutText, collaborationsText, contactText];
     transition-transform duration-500 ease-out
   "
 >
-  <!-- Close button -->
-  <!-- <div class="flex justify-end">
-    <button
-      id="menu-button"
-      type="button"
-      aria-label="menu"
-      aria-expanded="false"
-      class="text-2xl"
-    >
-      <span class="text-lg uppercase">{"<"}</span>
-    </button>
-  </div> -->
-
   <!-- Menu items -->
   <div class="flex flex-col gap-6">
     <div class="flex flex-col gap-1">
@@ -54,6 +43,7 @@ const textList = [aboutText, collaborationsText, contactText];
           >
             {item}
           </button>
+          {/* Menu Text */}
           <div class="menu-text max-h-0 overflow-hidden transition-all duration-500">
             <MenuText item={item} text={textList[i]}/>
           </div>
@@ -67,8 +57,9 @@ const textList = [aboutText, collaborationsText, contactText];
 <script>
   const menu = document.getElementById("menu");
   const backdrop = document.getElementById("menu-backdrop");
-  // const button = document.getElementById("menu-button");
   const page = document.getElementById("page");
+  const menuItems = document.querySelectorAll(".menu-item");
+  const menuText = document.querySelectorAll(".menu-text");
 
   let open = false;
 
@@ -85,27 +76,26 @@ const textList = [aboutText, collaborationsText, contactText];
     backdrop?.classList.toggle("opacity-0", !open);
     backdrop?.classList.toggle("pointer-events-none", !open);
 
-    // aria state
-    // button?.setAttribute("aria-expanded", String(open));
-
+    // move page when menu opens
     page?.classList.toggle("-translate-x-24", open);
+
+    // hide all menuText elements when menu open state changes (reset)
+    menuText.forEach((el) => {
+        el.classList.remove("max-h-96");
+        el.classList.add("max-h-0"); 
+    })
   }
 
+  // toggle menu on toggle-menu event dispatch (Navbar)
   window.addEventListener("toggle-menu", () => {
     setMenu(!open);
   });
-
-  // button?.addEventListener("click", () => {
-  //   setMenu(false);
-  // });
-
+  // close menu when backdrop is clicked
   backdrop?.addEventListener("click", () => {
     setMenu(false);
   });
 
-  // Menu items
-  const menuItems = document.querySelectorAll(".menu-item");
-  const menuText = document.querySelectorAll(".menu-text");
+  // Handle click on menu item (toggle text visibility)
   for (const item of menuItems) {
     item.addEventListener("click", () => {
       const data = (item as HTMLElement).dataset.index;
@@ -115,11 +105,15 @@ const textList = [aboutText, collaborationsText, contactText];
         if (i === index) {
           menuText[i].classList.toggle("max-h-0");
           menuText[i].classList.toggle("max-h-96"); }
-        // } else {
-        //   menuText[i].classList.remove("max-h-96");
-        //   menuText[i].classList.add("max-h-0"); 
-        // }
       }
+    })
+  }
+  
+  // Click on visible text to hide it
+  for (const text of menuText) {
+    text.addEventListener("click", () => {
+      text.classList.remove("max-h-96");
+      text.classList.add("max-h-0");
     })
   }
 </script>

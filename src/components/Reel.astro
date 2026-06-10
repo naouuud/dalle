@@ -3,6 +3,7 @@ import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url
 import { sanityClient } from "sanity:client"
 
 const { reel } = Astro.props;
+const { reelItems } = reel;
 
 const { projectId, dataset } = sanityClient.config();
 const urlFor = (source: SanityImageSource) => 
@@ -12,31 +13,37 @@ const urlFor = (source: SanityImageSource) =>
 ---
 <div class="flex flex-col gap-0">
     {
-      reel.reelItems.map(
+      reelItems.map(
         ({
-          imageItem,
+          imageUrl,
+          media,
           slug,
+          videoUrl,
         }: {
-          imageItem: { image: SanityImageSource; alt: string };
-          title: string;
+          imageUrl: string | null;
+          media: any;
           slug: { current: string };
-        }) => (
+          videoUrl: string | null;
+        }) => 
           <div>
-            {slug.current ? (
+          { media.type === "image" ? 
+            slug.current ? (
               <a href={"work/" + slug.current}>
                 <img
-                  src={urlFor(imageItem.image)?.width(800).url()}
-                  alt={imageItem.alt}
+                  src={urlFor(imageUrl!)?.width(800).url()}
+                  alt={media.imageItem.alt}
                 />
               </a>
             ) : (
               <img
-                src={urlFor(imageItem.image)?.width(800).url()}
-                alt={imageItem.alt}
+                src={urlFor(imageUrl!)?.width(800).url()}
+                alt={media.imageItem.alt}
               />
-            )}
+            ) : 
+              <video class="w-full" id="player" autoplay muted playsinline loop controls>
+                <source src={videoUrl}/>
+              </video>
+          }
           </div>
-        ),
-      )
-    }
+        )}
 </div>

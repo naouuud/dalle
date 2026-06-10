@@ -20,7 +20,14 @@ const VIDEO_QUERY = `*[_type == "coverVideos"][0].videos[]{
 }`;
 const videos = await sanityClient.fetch<{url: string, color: "dark" | "light"}[]>(VIDEO_QUERY);
 
-const REEL_QUERY = `*[_type == "reel"][0]`
+const REEL_QUERY = `*[_type == "reel"][0]{
+  reelItems[]{
+    slug,
+    media,
+    "imageUrl": media.imageItem.image.asset->url,
+    "videoUrl": media.videoItem.file.asset->url,
+  }
+}`
 const reel = await sanityClient.fetch<SanityDocument>(REEL_QUERY)
 ---
 {

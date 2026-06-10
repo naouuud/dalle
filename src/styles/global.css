@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 /* @layer base {
   html {
     text-rendering: optimizeLegibility;
@@ -7,7 +6,6 @@
     -moz-osx-font-smoothing: grayscale;
   }
 } */
-
 @view-transition {
   navigation: auto;
 }

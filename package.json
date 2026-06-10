@@ -24,6 +24,7 @@
     "astro-portabletext": "^0.13.0",
     "canvas-confetti": "^1.9.4",
     "nanostores": "^1.3.0",
+    "plyr": "^3.8.4",
     "preact": "^10.29.2",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",

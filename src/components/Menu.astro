@@ -30,6 +30,7 @@ const textList = [aboutText, collaborationsText, contactText];
     bg-neutral-200 px-8 pt-8 pb-12
     translate-x-full
     transition-transform duration-500 ease-out
+    overflow-auto
   "
 >
   <!-- Menu items -->
@@ -44,7 +45,7 @@ const textList = [aboutText, collaborationsText, contactText];
             {item}
           </button>
           {/* Menu Text */}
-          <div class="menu-text max-h-0 overflow-hidden transition-all duration-500">
+          <div class="menu-text max-h-0 overflow-hidden transition-all duration-500 hover:cursor-pointer">
             <MenuText item={item} text={textList[i]}/>
           </div>
         </div>

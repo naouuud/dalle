@@ -5,18 +5,33 @@ import MainLayout from "../../layouts/main.astro"
 import ContainerLayout from "../../layouts/container.astro"
 import WorkImages from "../../components/WorkImages.astro";
 import WorkInfo from "../../components/WorkInfo.astro";
+import WorkNavigation from "../../components/WorkNavigation.astro";
 
-export async function getStaticPaths(): Promise<{ params: { slug: string } }> {
+export async function getStaticPaths() {
   const WORKS_QUERY = `*[_type == "work" && defined(slug.current)]{
-    "params": {"slug": slug.current}
+    "params": {"slug": slug.current},
+    "props": {"title": title, "year": year, "medium": medium, "body": body, "images": images}
   }`;
-  return await sanityClient.fetch(WORKS_QUERY);
+  const works = await sanityClient.fetch<Array<{ params: { slug: string }, props: { title: string, year: string, medium: string, body: string, images: any }}>>(WORKS_QUERY);
+  const firstWork = works[0];
+  const lastWork = works[works.length - 1];
+  // 2. Map through the array to build the required Astro structure
+  return works.map((work, index) => {
+    const prevWork = index > 0 ? works[index - 1] : null;
+    const nextWork = index < works.length - 1 ? works[index + 1] : null;
+    return {
+      params: work.params,
+      props: { ...work.props,
+        prev: prevWork ? { slug: prevWork.params.slug, title: prevWork.props.title } : { slug: lastWork.params.slug, title: lastWork.props.title },
+        next: nextWork ? { slug: nextWork.params.slug, title: nextWork.props.title } : { slug: firstWork.params.slug, title: firstWork.props.title },
+      },
+    };
+  });
 }
 
-const WORK_QUERY = `*[_type == "work" && slug.current == $slug][0]`;
-const work = await sanityClient.fetch<SanityDocument>(WORK_QUERY, Astro.params);
+const { title, year, medium, body, prev, next, images } = Astro.props; 
 ---
-<MainLayout page={work.title}>
+<MainLayout page={title}>
     <div
     id="workinfo-backdrop"
     class="fixed inset-0 z-40 bg-black/30 opacity-0 pointer-events-none"
@@ -25,11 +40,14 @@ const work = await sanityClient.fetch<SanityDocument>(WORK_QUERY, Astro.params);
       <ContainerLayout>
         <div class="flex flex-col gap-4 mt-18 relative">
             <div class="flex justify-between font-medium">
-                <h2 class="uppercase">{work.title}</h2>
+                <h2 class="uppercase">{title}</h2>
                 <button id="info-button">INFO +</button>
-                <WorkInfo year={work.year} medium={work.medium} body={work.body} />
+                <WorkInfo year={year} medium={medium} body={body} />
             </div>
-            <WorkImages images={work.images} />
+            <WorkImages images={images} />
+            <div class="mt-4">
+                <WorkNavigation prev={prev} next={next} />
+            </div>
         </div>
       </ContainerLayout>
     </main>

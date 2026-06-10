@@ -1,6 +1,10 @@
 ---
 const { next } = Astro.props;
 ---
-<nav class="group text-center text-sm border border-gray-800 hover:border-black">
-    <a class="block w-full uppercase text-gray-800 group-hover:text-black" href={next.slug}>follow the thread &rarr;</a>
+
+<nav class="py-8 text-center text-sm">
+  <a href={next.slug} class="group inline-flex flex-col items-center gap-2 uppercase">
+    <span class="font-medium group-hover:text-neutral-600">follow the thread &rarr;</span>
+    <span class="text-neutral-500 group-hover:text-black">{next.title}</span>
+  </a>
 </nav>

@@ -7,19 +7,17 @@ const contactInfo = await sanityClient.fetch<SanityDocument & { phone: string, e
 const { phone, email } = contactInfo;
 ---
 <div class="contact-info flex flex-col gap-2">
-  <a href=`mailto:${email}` class="hover:text-neutral-600 transition-colors">
+  <a href=`mailto:${email}` class="font-['Raleway'] hover:text-neutral-600 transition-colors">
     { email }
   </a>
-  <a href=`tel:${phone}` class="hover:text-neutral-600 transition-colors">
+  <a href=`tel:${phone}` class="font-['Montserrat'] hover:text-neutral-600 transition-colors">
     { phone }
   </a>
 </div>
 
 <style>
   .contact-info {
-    font-family: "Libre Franklin", system-ui, sans-serif;
     font-weight: 400;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.01em;
+    font-variant-numeric: proportional-nums;
   }
 </style>

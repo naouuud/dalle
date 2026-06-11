@@ -19,7 +19,7 @@ export default function Navbar() {
   return (
     <div
       id="navbar"
-      className={`fixed z-40 top-0 left-0 w-full flex items-center pt-4 pb-3 pl-4 pr-6 mb-8 ${theme === "dark" ? "text-white" : "text-black"}`}
+      className={`fixed z-40 top-0 left-0 w-full flex items-center pt-4 pb-3 pl-4 pr-4 mb-8 ${theme === "dark" ? "text-white" : "text-black"}`}
     >
       <h1 className="flex-1 text-2xl lg:text-7xl">
         <a href="/">Rumi Dalle</a>

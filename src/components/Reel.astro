@@ -1,6 +1,7 @@
 ---
 import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url";
 import { sanityClient } from "sanity:client"
+import "plyr/dist/plyr.css";
 
 const { reel } = Astro.props;
 const { reelItems } = reel;
@@ -40,10 +41,35 @@ const urlFor = (source: SanityImageSource) =>
                 alt={media.imageItem.alt}
               />
             ) : 
-              <video class="w-full" id="player" autoplay muted playsinline loop controls>
-                <source src={videoUrl}/>
+              <div class="reel-player">
+              <video
+                class="reel-video w-full"
+                autoplay
+                muted
+                playsinline
+                loop
+                controls
+              >
+                <source src={videoUrl} type="video/mp4" />
               </video>
+              </div>
           }
           </div>
         )}
 </div>
+
+<style>
+  .reel-player {
+    --plyr-color-main: hsl(274, 8%, 41%);
+  }
+</style>
+
+<script>
+  import Plyr from "plyr";
+
+  document.querySelectorAll<HTMLVideoElement>(".reel-video").forEach((video) => {
+    new Plyr(video, {
+      controls: ["play", "progress", "current-time", "mute", "volume", "fullscreen"],
+    });
+  });
+</script>

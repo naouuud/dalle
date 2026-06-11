@@ -67,9 +67,31 @@ const urlFor = (source: SanityImageSource) =>
 <script>
   import Plyr from "plyr";
 
-  document.querySelectorAll<HTMLVideoElement>(".reel-video").forEach((video) => {
-    new Plyr(video, {
+  const initPlyr = (video: HTMLVideoElement) => {
+    const player = new Plyr(video, {
+      muted: true,
+      loop: { active: true },
       controls: ["play", "progress", "current-time", "mute", "volume", "fullscreen"],
     });
+    player.on("ready", () => {
+      player.muted = true;
+      player.play();
+    });
+  };
+
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          initPlyr(entry.target as HTMLVideoElement);
+          obs.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: "200px" },
+  );
+
+  document.querySelectorAll<HTMLVideoElement>(".reel-video").forEach((video) => {
+    observer.observe(video);
   });
 </script>

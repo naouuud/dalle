@@ -77,11 +77,29 @@ const imageItems = allMedia.filter((m) => m.type === "image");
   import Plyr from "plyr";
 
   document.addEventListener("DOMContentLoaded", () => {
-    // --- Plyr ---
-    document.querySelectorAll<HTMLVideoElement>(".work-video").forEach((video) => {
+    // --- Plyr (deferred until each video enters the viewport) ---
+    const initPlyr = (video: HTMLVideoElement) => {
       new Plyr(video, {
+        autoplay: false,
+        muted: false,
         controls: ["play", "progress", "current-time", "mute", "volume", "fullscreen"],
       });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            initPlyr(entry.target as HTMLVideoElement);
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "200px" },
+    );
+
+    document.querySelectorAll<HTMLVideoElement>(".work-video").forEach((video) => {
+      observer.observe(video);
     });
 
     // --- Lightbox ---

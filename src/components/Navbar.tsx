@@ -25,15 +25,18 @@ export default function Navbar() {
         <a href="/">Rumi Dalle</a>
       </h1>
       <button
-        id="burger"
+        id="menu-open"
         type="button"
-        className="hamburger"
-        aria-label="menu"
+        className={`uppercase text-sm transition-colors ${
+          theme === "dark"
+            ? "text-white/70 hover:text-white"
+            : "text-neutral-500 hover:text-black"
+        }`}
+        aria-label="Open info panel"
         aria-expanded="false"
         onClick={openMenu}
       >
-        <span></span>
-        <span></span>
+        Info
       </button>
     </div>
   );

@@ -1,6 +1,5 @@
 ---
-import SocialMedia from "./SocialMedia.astro"
-import ContactInfo from "./ContactInfo.astro";
+import SocialMedia from "./SocialMedia.astro";
 import MenuText from "./MenuText.astro";
 
 const menuList = ["About", "Collaborations", "Contact"];
@@ -8,49 +7,55 @@ const aboutText = "Rumi is a multidisciplinary artist whose work explores memory
 const collaborationsText = "Selected collaborations include projects with Hermès, Loewe, COS, and Aesop, spanning window installations, limited-edition objects, and brand storytelling initiatives.";
 const contactText = "For inquiries regarding works, commissions, or collaborations, please get in touch directly.";
 const textList = [aboutText, collaborationsText, contactText];
-
 ---
-<!-- Backdrop -->
+
 <div
   id="menu-backdrop"
-  class="
-    fixed inset-0 z-40
-    bg-black/20
-    opacity-0 pointer-events-none
-    transition-opacity duration-500
-  "
+  class="fixed inset-0 z-40 bg-black/20 opacity-0 pointer-events-none transition-opacity duration-500"
 ></div>
 
-<!-- Menu -->
 <aside
   id="menu"
-  class="
-    fixed right-0 top-0 z-50
-    flex h-dvh w-72 flex-col
-    bg-neutral-200 px-8 pt-8 pb-12
-    translate-x-full
-    transition-transform duration-500 ease-out
-    overflow-auto
-  "
+  class="fixed right-0 top-0 z-50 flex h-dvh w-full max-w-md flex-col bg-neutral-100 border-l border-neutral-200 translate-x-full transition-transform duration-500 ease-out"
+  aria-hidden="true"
 >
-  <!-- Menu items -->
-  <div class="flex flex-col gap-6">
-    <div class="flex flex-col gap-1">
-      {menuList.map((item, i) => (
-        <div class="flex flex-col gap-1">
-          <button
-            data-index={i}
-            class="menu-item w-full text-start text-[20px] font-normal tracking-normal transition-all duration-300 hover:cursor-pointer uppercase"
-          >
-            {item}
-          </button>
-          {/* Menu Text */}
-          <div class="menu-text max-h-0 overflow-hidden transition-all duration-500 hover:cursor-pointer">
-            <MenuText item={item} text={textList[i]}/>
-          </div>
+  <div class="flex items-center justify-between px-6 pt-6 pb-4 border-b border-neutral-200">
+    <span class="uppercase text-sm text-neutral-500">Info</span>
+    <button
+      id="menu-close"
+      type="button"
+      class="uppercase text-sm text-neutral-500 hover:text-black transition-colors"
+    >
+      Close
+    </button>
+  </div>
+
+  <nav class="flex gap-6 px-6 py-4 border-b border-neutral-200" aria-label="Info sections">
+    {
+      menuList.map((item, i) => (
+        <button
+          type="button"
+          data-index={i}
+          class="menu-tab uppercase text-sm text-neutral-400 hover:text-black transition-colors"
+          aria-current={i === 0 ? "true" : "false"}
+        >
+          {item}
+        </button>
+      ))
+    }
+  </nav>
+
+  <div class="flex-1 overflow-y-auto px-6 py-6">
+    {
+      menuList.map((item, i) => (
+        <div class:list={["menu-panel", i !== 0 && "hidden"]} data-panel={i}>
+          <MenuText item={item} text={textList[i]} />
         </div>
-      ))}
-    </div>
+      ))
+    }
+  </div>
+
+  <div class="px-6 py-6 border-t border-neutral-200">
     <SocialMedia />
   </div>
 </aside>
@@ -58,63 +63,66 @@ const textList = [aboutText, collaborationsText, contactText];
 <script>
   const menu = document.getElementById("menu");
   const backdrop = document.getElementById("menu-backdrop");
-  const page = document.getElementById("page");
-  const menuItems = document.querySelectorAll(".menu-item");
-  const menuText = document.querySelectorAll(".menu-text");
+  const closeButton = document.getElementById("menu-close");
+  const menuTabs = document.querySelectorAll<HTMLButtonElement>(".menu-tab");
+  const menuPanels = document.querySelectorAll<HTMLElement>(".menu-panel");
+  const menuOpenButton = document.getElementById("menu-open");
 
   let open = false;
+  let activeIndex = 0;
 
-  function setMenu(state: any) {
+  const setActivePanel = (index: number) => {
+    activeIndex = index;
+    menuTabs.forEach((tab, i) => {
+      tab.setAttribute("aria-current", i === index ? "true" : "false");
+      tab.classList.toggle("text-black", i === index);
+      tab.classList.toggle("font-medium", i === index);
+      tab.classList.toggle("text-neutral-400", i !== index);
+    });
+    menuPanels.forEach((panel, i) => {
+      panel.classList.toggle("hidden", i !== index);
+    });
+  };
+
+  const setMenu = (state: boolean) => {
     open = state;
 
-    // menu animation
     menu?.classList.toggle("translate-x-0", open);
     menu?.classList.toggle("translate-x-full", !open);
+    menu?.setAttribute("aria-hidden", open ? "false" : "true");
 
-    // backdrop animation
     backdrop?.classList.toggle("opacity-100", open);
     backdrop?.classList.toggle("pointer-events-auto", open);
     backdrop?.classList.toggle("opacity-0", !open);
     backdrop?.classList.toggle("pointer-events-none", !open);
 
-    // move page when menu opens
-    page?.classList.toggle("-translate-x-24", open);
+    menuOpenButton?.setAttribute("aria-expanded", open ? "true" : "false");
 
-    // hide all menuText elements when menu open state changes (reset)
-    menuText.forEach((el) => {
-        el.classList.remove("max-h-96");
-        el.classList.add("max-h-0"); 
-    })
-  }
+    if (open) {
+      setActivePanel(activeIndex);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  };
 
-  // toggle menu on toggle-menu event dispatch (Navbar)
   window.addEventListener("toggle-menu", () => {
     setMenu(!open);
   });
-  // close menu when backdrop is clicked
-  backdrop?.addEventListener("click", () => {
-    setMenu(false);
+
+  closeButton?.addEventListener("click", () => setMenu(false));
+  backdrop?.addEventListener("click", () => setMenu(false));
+
+  menuTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const index = Number(tab.dataset.index);
+      if (!Number.isNaN(index)) setActivePanel(index);
+    });
   });
 
-  // Handle click on menu item (toggle text visibility)
-  for (const item of menuItems) {
-    item.addEventListener("click", () => {
-      const data = (item as HTMLElement).dataset.index;
-      if (!data) return;
-      const index = Number.parseInt(data);
-      for (let i = 0; i < menuText.length; i++) {
-        if (i === index) {
-          menuText[i].classList.toggle("max-h-0");
-          menuText[i].classList.toggle("max-h-96"); }
-      }
-    })
-  }
-  
-  // Click on visible text to hide it
-  for (const text of menuText) {
-    text.addEventListener("click", () => {
-      text.classList.remove("max-h-96");
-      text.classList.add("max-h-0");
-    })
-  }
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && open) setMenu(false);
+  });
+
+  setActivePanel(0);
 </script>

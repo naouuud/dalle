@@ -1,7 +1,6 @@
 ---
 import type { SanityDocument } from "@sanity/client"
 import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url"
-import { PortableText } from "astro-portabletext"
 import { sanityClient } from "sanity:client"
 
 const POST_QUERY = `*[_type == "profilePic"][0]`
@@ -30,4 +29,3 @@ const imageURL = post.imageItem?.image
         <p class="prose">{Array.isArray(post.biography) && <PortableText value={post.biography} />}
       </div>
 </div> -->
-<div class="text-4xl">NEWSLETTER SIGN UP GOES HERE</div>

@@ -10,6 +10,7 @@ import Footer from "../components/Footer.astro"
 import CoverVideo from "../components/CoverVideo.tsx";
 import { sanityClient } from "sanity:client";
 import type { SanityDocument } from "@sanity/client";
+import NewsletterSignup from "../components/NewsletterSignup.astro";
 
 // export const GRID = false;
 
@@ -34,11 +35,11 @@ const reel = await sanityClient.fetch<SanityDocument>(REEL_QUERY)
   <MainLayout page="Artist">
     <main class="mx-auto min-h-screen max-w-3xl lg:flex">
       <CoverVideo client:only="preact" videos={videos}/>
-      <div class="mb-14">
+      <div class="mb-8">
         <Reel reel={reel} />
       </div>
       <ContainerLayout>
-        <Biography />
+        <NewsletterSignup />
       </ContainerLayout>
     </main>
   </MainLayout>

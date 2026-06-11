@@ -1,11 +1,17 @@
 ---
+import type { SanityDocument } from "sanity";
+import { sanityClient } from "sanity:client";
+
+const CONTACT_QUERY = `*[_type == 'contactInfo'][0]`
+const contactInfo = await sanityClient.fetch<SanityDocument & { phone: string, email: string}>(CONTACT_QUERY);
+const { phone, email } = contactInfo;
 ---
 <div class="contact-info flex flex-col gap-2">
-  <a href="mailto:rd@rumidalle.com" class="hover:text-neutral-600 transition-colors">
-    rd@rumidalle.com
+  <a href=`mailto:${email}` class="hover:text-neutral-600 transition-colors">
+    { email }
   </a>
-  <a href="tel:+96170794541" class="hover:text-neutral-600 transition-colors">
-    +961 70 794 541
+  <a href=`tel:${phone}` class="hover:text-neutral-600 transition-colors">
+    { phone }
   </a>
 </div>
 

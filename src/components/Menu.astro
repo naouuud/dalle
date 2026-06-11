@@ -1,12 +1,12 @@
 ---
 import SocialMedia from "./SocialMedia.astro";
 import MenuText from "./MenuText.astro";
+import { sanityClient } from "sanity:client";
+import type { SanityDocument } from "sanity";
 
-const menuList = ["About", "Collaborations", "Contact"];
-const aboutText = "Rumi is a multidisciplinary artist whose work explores memory, materiality, and the shifting relationship between the natural and constructed world. She lives and works in Beirut.";
-const collaborationsText = "Selected collaborations include projects with Hermès, Loewe, COS, and Aesop, spanning window installations, limited-edition objects, and brand storytelling initiatives.";
-const contactText = "For inquiries regarding works, commissions, or collaborations, get in touch directly.";
-const textList = [aboutText, collaborationsText, contactText];
+const MENU_QUERY = `*[_type == 'menu'][0]`;
+const menu = await sanityClient.fetch<SanityDocument & { menuItems: Array<{ heading: string, text: any}>}>(MENU_QUERY);
+const { menuItems } = menu; 
 ---
 
 <div
@@ -30,16 +30,16 @@ const textList = [aboutText, collaborationsText, contactText];
     </button>
   </div>
 
-  <nav class="flex gap-6 px-6 py-4 border-b border-neutral-200" aria-label="Info sections">
+  <nav class="flex gap-6 px-6 py-4 border-b border-neutral-200 overflow-auto" aria-label="Info sections">
     {
-      menuList.map((item, i) => (
+      menuItems.map((item, i) => (
         <button
           type="button"
           data-index={i}
           class="menu-tab uppercase text-sm text-neutral-400 hover:text-black transition-colors"
           aria-current={i === 0 ? "true" : "false"}
         >
-          {item}
+          {item.heading}
         </button>
       ))
     }
@@ -47,9 +47,9 @@ const textList = [aboutText, collaborationsText, contactText];
 
   <div class="flex-1 overflow-y-auto px-6 py-6">
     {
-      menuList.map((item, i) => (
+      menuItems.map((item, i) => (
         <div class:list={["menu-panel", i !== 0 && "hidden"]} data-panel={i}>
-          <MenuText item={item} text={textList[i]} />
+          <MenuText heading={ item.heading } text={item.text} />
         </div>
       ))
     }

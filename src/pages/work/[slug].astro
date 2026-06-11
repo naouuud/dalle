@@ -66,7 +66,7 @@ const { title, year, medium, body, prev, next, allMedia } = Astro.props;
                         type="button"
                         class="uppercase text-sm text-neutral-500 hover:text-black transition-colors"
                     >
-                        INFO +
+                        DETAILS +
                     </button>
                 </div>
                 <WorkInfo year={year} medium={medium} body={body} />
@@ -92,7 +92,7 @@ const { title, year, medium, body, prev, next, allMedia } = Astro.props;
 
         const setOpen = (state: boolean) => {
             open = state;
-            infoButton.textContent = open ? "INFO −" : "INFO +";
+            infoButton.textContent = open ? "DETAILS −" : "DETAILS +";
             workInfo.classList.toggle("max-h-0", !open);
             workInfo.classList.toggle("max-h-[50vh]", open);
             workInfo.classList.toggle("pt-0", !open);

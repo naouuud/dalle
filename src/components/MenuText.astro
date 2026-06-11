@@ -4,7 +4,15 @@ import ContactInfo from "./ContactInfo.astro";
 
 const { heading, text } = Astro.props;
 ---
-<div class="flex flex-col gap-3">
-  <p class="prose leading-relaxed">{Array.isArray(text) && <PortableText value={text} />}
+<div class="flex flex-col gap-3 leading-relaxed">
+  <div class="prose">
+    {Array.isArray(text) && <PortableText value={text} />}
+  </div>
   {heading.toLowerCase() === "contact" && <ContactInfo />}
+  <!-- <div
+    class="mt-8 flex items-center justify-center gap-4 text-neutral-500"
+    aria-hidden="true"
+  >
+    <span class="text-base leading-none"></span>
+  </div> -->
 </div>

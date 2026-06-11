@@ -5,7 +5,7 @@ import MenuText from "./MenuText.astro";
 const menuList = ["About", "Collaborations", "Contact"];
 const aboutText = "Rumi is a multidisciplinary artist whose work explores memory, materiality, and the shifting relationship between the natural and constructed world. She lives and works in Beirut.";
 const collaborationsText = "Selected collaborations include projects with Hermès, Loewe, COS, and Aesop, spanning window installations, limited-edition objects, and brand storytelling initiatives.";
-const contactText = "For inquiries regarding works, commissions, or collaborations, please get in touch directly.";
+const contactText = "For inquiries regarding works, commissions, or collaborations, get in touch directly.";
 const textList = [aboutText, collaborationsText, contactText];
 ---
 
@@ -86,6 +86,8 @@ const textList = [aboutText, collaborationsText, contactText];
 
   const setMenu = (state: boolean) => {
     open = state;
+
+    setActivePanel(0);
 
     menu?.classList.toggle("translate-x-0", open);
     menu?.classList.toggle("translate-x-full", !open);

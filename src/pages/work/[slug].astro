@@ -34,14 +34,22 @@ const { title, year, medium, body, prev, next, images } = Astro.props;
 <MainLayout page={title}>
     <div
     id="workinfo-backdrop"
-    class="fixed inset-0 z-40 bg-black/30 opacity-0 pointer-events-none"
+    class="fixed inset-0 z-20 opacity-0 pointer-events-none transition-opacity duration-500"
     ></div>
     <main class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl lg:flex">
       <ContainerLayout>
         <div class="flex flex-col gap-4 mt-18 relative">
-            <div class="flex justify-between font-medium">
-                <h2 class="uppercase">{title}</h2>
-                <button id="info-button">INFO +</button>
+            <div class="relative">
+                <div class="flex justify-between items-start font-medium">
+                    <h2 class="uppercase">{title}</h2>
+                    <button
+                        id="info-button"
+                        type="button"
+                        class="uppercase text-sm text-neutral-500 hover:text-black transition-colors"
+                    >
+                        INFO +
+                    </button>
+                </div>
                 <WorkInfo year={year} medium={medium} body={body} />
             </div>
             <WorkImages images={images} />
@@ -54,7 +62,6 @@ const { title, year, medium, body, prev, next, images } = Astro.props;
 </MainLayout>
 
 <script>
-    let open = false;
     document.addEventListener("DOMContentLoaded", () => {
         const infoButton = document.getElementById("info-button");
         const workInfo = document.getElementById("work-info");
@@ -62,30 +69,22 @@ const { title, year, medium, body, prev, next, images } = Astro.props;
 
         if (!infoButton || !workInfo || !backdrop) return;
 
-        infoButton.addEventListener("click", () => {
-            if (!open) {
-                 // open
-                workInfo.classList.remove("max-h-0");
-                workInfo.classList.add("max-h-96", "pt-8", "pb-4");
-                backdrop.classList.remove("pointer-events-none");
-                backdrop.classList.add("pointer-events-auto");
+        let open = false;
 
-            } else {
-                // close
-                workInfo.classList.remove("max-h-96", "pt-8", "pb-4");
-                workInfo.classList.add("max-h-0");
-                backdrop.classList.remove("pointer-events-auto");
-                backdrop.classList.add("pointer-events-none");
-            }
-            open = !open;
-        });
-        backdrop?.addEventListener("click", () => {
-            // close
-            workInfo.classList.remove("max-h-96", "pt-8", "pb-4");
-            workInfo.classList.add("max-h-0");
-            backdrop.classList.remove("pointer-events-auto");
-            backdrop.classList.add("pointer-events-none");
-            open = !open;
-        });   
+        const setOpen = (state: boolean) => {
+            open = state;
+            infoButton.textContent = open ? "INFO −" : "INFO +";
+            workInfo.classList.toggle("max-h-0", !open);
+            workInfo.classList.toggle("max-h-[50vh]", open);
+            workInfo.classList.toggle("pt-0", !open);
+            workInfo.classList.toggle("pt-2", open)
+            backdrop.classList.toggle("opacity-0", !open);
+            backdrop.classList.toggle("opacity-100", open);
+            backdrop.classList.toggle("pointer-events-none", !open);
+            backdrop.classList.toggle("pointer-events-auto", open);
+        };
+
+        infoButton.addEventListener("click", () => setOpen(!open));
+        backdrop.addEventListener("click", () => setOpen(false));
     });
 </script>

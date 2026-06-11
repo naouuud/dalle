@@ -1,29 +1,51 @@
 ---
 import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url";
-import { sanityClient } from "sanity:client"
+import { sanityClient } from "sanity:client";
+import "plyr/dist/plyr.css";
 
-const { images } = Astro.props;
+type MediaItem = {
+  type: "image" | "video";
+  image?: SanityImageSource;
+  alt?: string;
+  videoUrl?: string;
+};
+
+const { allMedia } = Astro.props as { allMedia: MediaItem[] };
 const { projectId, dataset } = sanityClient.config();
-const urlFor = (source: SanityImageSource) => 
+const urlFor = (source: SanityImageSource) =>
   projectId && dataset
     ? createImageUrlBuilder({ projectId, dataset }).image(source)
     : null;
+
+const imageItems = allMedia.filter((m) => m.type === "image");
 ---
+
 <div class="flex flex-col gap-4">
-    {
-      images.map(
-        (image: any, index: number) => (
-          <div>
-              <img
-                class="cursor-pointer"
-                src={urlFor(image.image)?.width(800).url()}
-                alt={image.alt}
-                data-lightbox-trigger={index}
-              /> 
+  {
+    allMedia.map((item) => {
+      if (item.type === "video") {
+        return (
+          <div class="work-player">
+            <video class="work-video w-full" playsinline controls>
+              <source src={item.videoUrl} type="video/mp4" />
+            </video>
           </div>
-        ),
-      )
-    }
+        );
+      }
+
+      const lightboxIndex = imageItems.indexOf(item);
+      return (
+        <div>
+          <img
+            class="cursor-pointer"
+            src={urlFor(item.image!)?.width(800).url()}
+            alt={item.alt}
+            data-lightbox-trigger={lightboxIndex}
+          />
+        </div>
+      );
+    })
+  }
 </div>
 
 <div
@@ -33,22 +55,36 @@ const urlFor = (source: SanityImageSource) =>
   role="dialog"
 >
   {
-    images.map(
-      (image: any, index: number) => (
-        <div class="hidden" data-lightbox-slide={index}>
-          <img
-            class="max-h-[90vh] max-w-[90vw] object-contain pointer-events-none"
-            src={urlFor(image.image)?.width(1600).url()}
-            alt={image.alt}
-          />
-        </div>
-      ),
-    )
+    imageItems.map((item, index) => (
+      <div class="hidden" data-lightbox-slide={index}>
+        <img
+          class="max-h-[90vh] max-w-[90vw] object-contain pointer-events-none"
+          src={urlFor(item.image!)?.width(1600).url()}
+          alt={item.alt}
+        />
+      </div>
+    ))
   }
 </div>
 
+<style>
+  .work-player {
+    --plyr-color-main: hsl(274, 8%, 41%);
+  }
+</style>
+
 <script>
+  import Plyr from "plyr";
+
   document.addEventListener("DOMContentLoaded", () => {
+    // --- Plyr ---
+    document.querySelectorAll<HTMLVideoElement>(".work-video").forEach((video) => {
+      new Plyr(video, {
+        controls: ["play", "progress", "current-time", "mute", "volume", "fullscreen"],
+      });
+    });
+
+    // --- Lightbox ---
     const lightbox = document.getElementById("lightbox");
     const slides = lightbox?.querySelectorAll<HTMLElement>("[data-lightbox-slide]");
     const triggers = document.querySelectorAll<HTMLElement>("[data-lightbox-trigger]");
@@ -64,7 +100,7 @@ const urlFor = (source: SanityImageSource) =>
       });
     };
 
-    const open = (index: number) => {
+    const openLightbox = (index: number) => {
       showSlide(index);
       lightbox.classList.remove("hidden");
       lightbox.classList.add("flex");
@@ -72,7 +108,7 @@ const urlFor = (source: SanityImageSource) =>
       document.body.style.overflow = "hidden";
     };
 
-    const close = () => {
+    const closeLightbox = () => {
       lightbox.classList.add("hidden");
       lightbox.classList.remove("flex");
       lightbox.setAttribute("aria-hidden", "true");
@@ -83,15 +119,15 @@ const urlFor = (source: SanityImageSource) =>
     triggers.forEach((trigger) => {
       trigger.addEventListener("click", () => {
         const index = Number(trigger.getAttribute("data-lightbox-trigger"));
-        open(index);
+        openLightbox(index);
       });
     });
 
-    lightbox.addEventListener("click", close);
+    lightbox.addEventListener("click", closeLightbox);
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && lightbox.getAttribute("aria-hidden") === "false") {
-        close();
+        closeLightbox();
       }
     });
   });

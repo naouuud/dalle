@@ -8,28 +8,47 @@ import WorkInfo from "../../components/WorkInfo.astro";
 import WorkNavigation from "../../components/WorkNavigation.astro";
 
 export async function getStaticPaths() {
-  const WORKS_QUERY = `*[_type == "work" && defined(slug.current)]{
-    "params": {"slug": slug.current},
-    "props": {"title": title, "year": year, "medium": medium, "body": body, "images": images}
+  const WORKS_QUERY = `*[_type == "works"][0].workItems[defined(slug.current)]{
+    "slug": slug.current,
+    title,
+    year,
+    medium,
+    body,
+    "allMedia": allMedia[]{
+      type,
+      "image": imageItem.image,
+      "alt": imageItem.alt,
+      "videoUrl": videoItem.file.asset->url
+    }
   }`;
-  const works = await sanityClient.fetch<Array<{ params: { slug: string }, props: { title: string, year: string, medium: string, body: string, images: any }}>>(WORKS_QUERY);
-  const firstWork = works[0];
-  const lastWork = works[works.length - 1];
-  // 2. Map through the array to build the required Astro structure
+  const works = await sanityClient.fetch<Array<{
+    slug: string;
+    title: string;
+    year: number;
+    medium: string;
+    body: string;
+    allMedia: Array<{ type: string; image?: any; alt?: string; videoUrl?: string }>;
+  }>>(WORKS_QUERY);
+
   return works.map((work, index) => {
-    const prevWork = index > 0 ? works[index - 1] : null;
-    const nextWork = index < works.length - 1 ? works[index + 1] : null;
+    const prevWork = index > 0 ? works[index - 1] : works[works.length - 1];
+    const nextWork = index < works.length - 1 ? works[index + 1] : works[0];
     return {
-      params: work.params,
-      props: { ...work.props,
-        prev: prevWork ? { slug: prevWork.params.slug, title: prevWork.props.title } : { slug: lastWork.params.slug, title: lastWork.props.title },
-        next: nextWork ? { slug: nextWork.params.slug, title: nextWork.props.title } : { slug: firstWork.params.slug, title: firstWork.props.title },
+      params: { slug: work.slug },
+      props: {
+        title: work.title,
+        year: work.year,
+        medium: work.medium,
+        body: work.body,
+        allMedia: work.allMedia,
+        prev: { slug: prevWork.slug, title: prevWork.title },
+        next: { slug: nextWork.slug, title: nextWork.title },
       },
     };
   });
 }
 
-const { title, year, medium, body, prev, next, images } = Astro.props; 
+const { title, year, medium, body, prev, next, allMedia } = Astro.props;
 ---
 <MainLayout page={title}>
     <div
@@ -52,7 +71,7 @@ const { title, year, medium, body, prev, next, images } = Astro.props;
                 </div>
                 <WorkInfo year={year} medium={medium} body={body} />
             </div>
-            <WorkImages images={images} />
+            <WorkImages allMedia={allMedia} />
             <div class="mt-4">
                 <WorkNavigation prev={prev} next={next} />
             </div>

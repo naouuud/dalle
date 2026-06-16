@@ -2,7 +2,12 @@
 dist/
 # generated types
 .astro/
-public/
+# static assets — keep fonts/favicons deployable; ignore other public files if added later
+public/*
+!public/favicon.ico
+!public/favicon.svg
+!public/fonts/
+!public/fonts/**
 
 # dependencies
 node_modules/
@@ -20,6 +25,7 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+*:Zone.Identifier
 
 # jetbrains setting folder
 .idea/

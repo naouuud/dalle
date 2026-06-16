@@ -14,6 +14,17 @@ import Footer from '../components/Footer.astro';
 		<link rel="icon" type="image/svg+xml" href={withBase("favicon.svg")} />
 		<link rel="icon" href={withBase("favicon.ico")} />
 		<title>Rumi Dalle &ndash; {page ? page : "Artist"}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="preload"
+			as="style"
+			href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=optional"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=optional"
+		/>
 	</head>
 	<body>
 		<Menu />

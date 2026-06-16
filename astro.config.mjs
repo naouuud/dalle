@@ -9,12 +9,17 @@ import preact from "@astrojs/preact";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://naouuud.github.io",
+  base: "/dalle/",
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [sanity({
-    projectId: "8csa25en",
-    dataset: "production",
-    useCdn: false, // for static builds
-  }), preact()],
+  integrations: [
+    sanity({
+      projectId: "8csa25en",
+      dataset: "production",
+      useCdn: false, // for static builds
+    }),
+    preact(),
+  ],
 });

@@ -10,12 +10,20 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const path = window.location.pathname;
-    const workPrefix = `${import.meta.env.BASE_URL}work`;
+    const updateNavbarBg = () => {
+      const navbar = document.getElementById("navbar");
+      const path = window.location.pathname;
+      const workPrefix = `${import.meta.env.BASE_URL}work`;
 
-    if (path.startsWith(workPrefix)) {
-      document.getElementById("navbar")?.classList.add("bg-neutral-100");
-    }
+      navbar?.classList.toggle("bg-neutral-100", path.startsWith(workPrefix));
+    };
+
+    updateNavbarBg();
+    document.addEventListener("astro:page-load", updateNavbarBg);
+
+    return () => {
+      document.removeEventListener("astro:page-load", updateNavbarBg);
+    };
   }, []);
 
   return (

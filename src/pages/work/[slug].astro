@@ -72,7 +72,7 @@ const { title, year, medium, body, prev, next, allMedia } = Astro.props;
                 <WorkInfo year={year} medium={medium} body={body} />
             </div>
             <WorkImages allMedia={allMedia} />
-            <div class="mt-4">
+            <div class="relative z-30 mt-4">
                 <WorkNavigation prev={prev} next={next} />
             </div>
         </div>

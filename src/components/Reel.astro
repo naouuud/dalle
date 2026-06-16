@@ -1,6 +1,7 @@
 ---
 import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url";
 import { sanityClient } from "sanity:client"
+import { withBase } from "../utils/url";
 import "plyr/dist/plyr.css";
 
 const { reel } = Astro.props;
@@ -29,7 +30,7 @@ const urlFor = (source: SanityImageSource) =>
           <div>
           { media.type === "image" ? 
             slug.current ? (
-              <a href={"work/" + slug.current}>
+              <a href={withBase(`work/${slug.current}`)}>
                 <img
                   src={urlFor(imageUrl!)?.width(800).url()}
                   alt={media.imageItem.alt}

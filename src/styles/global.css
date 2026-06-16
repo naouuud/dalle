@@ -80,7 +80,7 @@ body {
 
 @font-face {
   font-family: "Open Sans";
-  src: url("/dalle/fonts/open-sans/OpenSans-VariableFont_wdth,wght.ttf")
+  src: url("/fonts/open-sans/OpenSans-VariableFont_wdth,wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: normal;
@@ -89,7 +89,7 @@ body {
 
 @font-face {
   font-family: "Open Sans";
-  src: url("/dalle/fonts/open-sans/OpenSans-Italic-VariableFont_wdth,wght.ttf")
+  src: url("/fonts/open-sans/OpenSans-Italic-VariableFont_wdth,wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: italic;
@@ -98,7 +98,7 @@ body {
 
 @font-face {
   font-family: "Libre Franklin";
-  src: url("/dalle/fonts/libre-franklin/LibreFranklin-VariableFont_wght.ttf")
+  src: url("/fonts/libre-franklin/LibreFranklin-VariableFont_wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: normal;
@@ -107,7 +107,7 @@ body {
 
 @font-face {
   font-family: "Libre Franklin";
-  src: url("/dalle/fonts/libre-franklin/LibreFranklin-Italic-VariableFont_wght.ttf")
+  src: url("/fonts/libre-franklin/LibreFranklin-Italic-VariableFont_wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: italic;
@@ -116,7 +116,7 @@ body {
 
 @font-face {
   font-family: "Roboto";
-  src: url("/dalle/fonts/roboto/Roboto-VariableFont_wdth,wght.ttf")
+  src: url("/fonts/roboto/Roboto-VariableFont_wdth,wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: normal;
@@ -125,7 +125,7 @@ body {
 
 @font-face {
   font-family: "Roboto";
-  src: url("/dalle/fonts/roboto/Roboto-Italic-VariableFont_wdth,wght.ttf")
+  src: url("/fonts/roboto/Roboto-Italic-VariableFont_wdth,wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: italic;
@@ -134,7 +134,7 @@ body {
 
 @font-face {
   font-family: "Inter";
-  src: url("/dalle/fonts/inter/Inter-VariableFont_opsz,wght.ttf")
+  src: url("/fonts/inter/Inter-VariableFont_opsz,wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: normal;
@@ -143,7 +143,7 @@ body {
 
 @font-face {
   font-family: "Inter";
-  src: url("/dalle/fonts/inter/Inter-Italic-VariableFont_opsz,wght.ttf")
+  src: url("/fonts/inter/Inter-Italic-VariableFont_opsz,wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: italic;
@@ -152,7 +152,7 @@ body {
 
 @font-face {
   font-family: "Raleway";
-  src: url("/dalle/fonts/raleway/Raleway-VariableFont_wght.ttf")
+  src: url("/fonts/raleway/Raleway-VariableFont_wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: normal;
@@ -161,7 +161,7 @@ body {
 
 @font-face {
   font-family: "Raleway";
-  src: url("/dalle/fonts/raleway/Raleway-Italic-VariableFont_wght.ttf")
+  src: url("/fonts/raleway/Raleway-Italic-VariableFont_wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: italic;
@@ -170,7 +170,7 @@ body {
 
 @font-face {
   font-family: "Montserrat";
-  src: url("/dalle/fonts/monserrat/Montserrat-VariableFont_wght.ttf")
+  src: url("/fonts/monserrat/Montserrat-VariableFont_wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: normal;
@@ -179,7 +179,7 @@ body {
 
 @font-face {
   font-family: "Montserrat";
-  src: url("/dalle/fonts/monserrat/Montserrat-Italic-VariableFont_wght.ttf")
+  src: url("/fonts/monserrat/Montserrat-Italic-VariableFont_wght.ttf")
     format("truetype");
   font-weight: 100 900;
   font-style: italic;
@@ -188,7 +188,7 @@ body {
 
 @font-face {
   font-family: "Franklin Gothic";
-  src: url("/dalle/fonts/franklin-gothic/FranklinGothic.ttf") format("truetype");
+  src: url("/fonts/franklin-gothic/FranklinGothic.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;

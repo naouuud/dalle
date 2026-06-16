@@ -1,9 +1,11 @@
 ---
+import { withBase } from "../utils/url";
+
 const { next } = Astro.props;
 ---
 
 <nav class="py-8 text-center text-sm">
-  <a href={next.slug} class="group inline-flex flex-col items-center gap-2 uppercase">
+  <a href={withBase(`work/${next.slug}`)} class="group inline-flex flex-col items-center gap-2 uppercase">
     <span class="font-medium group-hover:text-neutral-600">follow the thread &rarr;</span>
     <span class="text-neutral-500 group-hover:text-black">{next.title}</span>
   </a>

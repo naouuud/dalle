@@ -22,7 +22,7 @@ export default function Navbar() {
       className={`fixed z-40 top-0 left-0 w-full flex items-center pt-4 pb-3 pl-4 pr-4 mb-8 ${theme === "dark" ? "text-white" : "text-black"}`}
     >
       <h1 className="flex-1 text-2xl lg:text-7xl">
-        <a href="/">Rumi Dalle</a>
+        <a href={import.meta.env.BASE_URL}>Rumi Dalle</a>
       </h1>
       <button
         id="menu-open"

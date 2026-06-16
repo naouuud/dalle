@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { withBase } from '../utils/url';
 const { page } = Astro.props
 import Navbar from '../components/Navbar';
 import Menu from '../components/Menu.astro';
@@ -10,8 +11,8 @@ import Footer from '../components/Footer.astro';
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" type="image/svg+xml" href={withBase("favicon.svg")} />
+		<link rel="icon" href={withBase("favicon.ico")} />
 		<title>Rumi Dalle &ndash; {page ? page : "Artist"}</title>
 		<!-- <script type="module" src="https://cdn.jsdelivr.net/npm/@videojs/html/cdn/background.js"></script> -->
 		<!-- <ClientRouter /> -->

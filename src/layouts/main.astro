@@ -18,9 +18,9 @@ import Footer from '../components/Footer.astro';
 		<ClientRouter />
 	</head>
 	<body>
-		<Menu />
+		<Menu transition:persist="menu" />
 		<div id="page" class="bg-neutral-100 transition-transform duration-500 ease-out">
-			<Navbar client:load transition:persist="navbar" />
+			<Navbar client:load />
 			<div transition:animate="fade">
 				<slot />
 			</div>

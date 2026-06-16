@@ -81,7 +81,7 @@ const { title, year, medium, body, prev, next, allMedia } = Astro.props;
 </MainLayout>
 
 <script>
-    document.addEventListener("astro:page-load", () => {
+    document.addEventListener("DOMContentLoaded", () => {
         const infoButton = document.getElementById("info-button");
         const workInfo = document.getElementById("work-info");
         const backdrop = document.getElementById("workinfo-backdrop");

@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import { withBase } from '../utils/url';
-import { ClientRouter } from 'astro:transitions';
 const { page } = Astro.props
 import Navbar from '../components/Navbar';
 import Menu from '../components/Menu.astro';
@@ -15,15 +14,12 @@ import Footer from '../components/Footer.astro';
 		<link rel="icon" type="image/svg+xml" href={withBase("favicon.svg")} />
 		<link rel="icon" href={withBase("favicon.ico")} />
 		<title>Rumi Dalle &ndash; {page ? page : "Artist"}</title>
-		<ClientRouter />
 	</head>
 	<body>
 		<Menu />
 		<div id="page" class="bg-neutral-100 transition-transform duration-500 ease-out">
 			<Navbar client:load />
-			<div transition:animate="fade">
-				<slot />
-			</div>
+			<slot />
 			<Footer />
 		</div>
 	</body>

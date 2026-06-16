@@ -14,7 +14,7 @@ export default function CoverVideo({ videos }: { videos: Video[] }) {
   }, [selected.url]);
 
   return (
-    <div className={"video-wrapper"}>
+    <div className="video-wrapper h-full w-full">
       <video key={selected.url} autoPlay muted loop playsInline>
         <source src={selected.url} type="video/mp4" />
       </video>

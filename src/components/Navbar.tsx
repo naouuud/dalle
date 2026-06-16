@@ -11,10 +11,12 @@ export default function Navbar() {
 
   useEffect(() => {
     const path = window.location.pathname;
-    if (path.startsWith("/work")) {
+    const workPrefix = `${import.meta.env.BASE_URL}work`;
+
+    if (path.startsWith(workPrefix)) {
       document.getElementById("navbar")?.classList.add("bg-neutral-100");
     }
-  });
+  }, []);
 
   return (
     <div

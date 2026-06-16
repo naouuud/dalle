@@ -4,7 +4,7 @@ import ContactInfo from "./ContactInfo.astro";
 
 const { heading, text } = Astro.props;
 ---
-<div class="font-['Montserrat'] flex flex-col gap-3 text-lg">
+<div class="font-['Montserrat'] flex flex-col gap-3">
   <div class="prose">
     {Array.isArray(text) && <PortableText value={text} />}
   </div>

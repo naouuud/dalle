@@ -59,7 +59,7 @@ const { title, year, medium, body, prev, next, allMedia } = Astro.props;
       <ContainerLayout>
         <div class="flex flex-col gap-4 mt-18 relative">
             <div class="relative">
-                <div class="flex justify-between items-center font-medium">
+                <div class="flex justify-between items-baseline font-medium">
                     <h2 class="uppercase">{title}</h2>
                     <button
                         id="info-button"
@@ -81,7 +81,7 @@ const { title, year, medium, body, prev, next, allMedia } = Astro.props;
 </MainLayout>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("astro:page-load", () => {
         const infoButton = document.getElementById("info-button");
         const workInfo = document.getElementById("work-info");
         const backdrop = document.getElementById("workinfo-backdrop");

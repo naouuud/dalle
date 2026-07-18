@@ -4,8 +4,15 @@ import { sanityClient } from "sanity:client"
 import { withBase } from "../utils/url";
 import "plyr/dist/plyr.css";
 
-const { reel } = Astro.props;
-const { reelItems } = reel;
+type ReelItem = {
+  imageUrl: string | null;
+  media: { type: string; imageItem?: { alt?: string } };
+  slug?: { current?: string };
+  videoUrl: string | null;
+};
+
+const { reel } = Astro.props as { reel?: { reelItems?: ReelItem[] } };
+const reelItems = reel?.reelItems ?? [];
 
 const { projectId, dataset } = sanityClient.config();
 const urlFor = (source: SanityImageSource) => 
@@ -15,33 +22,23 @@ const urlFor = (source: SanityImageSource) =>
 ---
 <div class="flex flex-col gap-0">
     {
-      reelItems.map(
-        ({
-          imageUrl,
-          media,
-          slug,
-          videoUrl,
-        }: {
-          imageUrl: string | null;
-          media: any;
-          slug: { current: string };
-          videoUrl: string | null;
-        }) => 
+      reelItems.map(({ imageUrl, media, slug, videoUrl }) => (
           <div>
-          { media.type === "image" ? 
-            slug.current ? (
+          { media.type === "image" && imageUrl ? 
+            slug?.current ? (
               <a href={withBase(`work/${slug.current}`)}>
                 <img
-                  src={urlFor(imageUrl!)?.width(800).url()}
-                  alt={media.imageItem.alt}
+                  src={urlFor(imageUrl)?.width(800).url()}
+                  alt={media.imageItem?.alt ?? ""}
                 />
               </a>
             ) : (
               <img
-                src={urlFor(imageUrl!)?.width(800).url()}
-                alt={media.imageItem.alt}
+                src={urlFor(imageUrl)?.width(800).url()}
+                alt={media.imageItem?.alt ?? ""}
               />
             ) : 
+              videoUrl ? (
               <div class="reel-player">
               <video
                 class="reel-video w-full"
@@ -54,9 +51,11 @@ const urlFor = (source: SanityImageSource) =>
                 <source src={videoUrl} type="video/mp4" />
               </video>
               </div>
+              ) : null
           }
           </div>
-        )}
+        ))
+    }
 </div>
 
 <style>

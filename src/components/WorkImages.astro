@@ -10,7 +10,7 @@ type MediaItem = {
   videoUrl?: string;
 };
 
-const { allMedia } = Astro.props as { allMedia: MediaItem[] };
+const { allMedia = [] } = Astro.props as { allMedia?: MediaItem[] };
 const { projectId, dataset } = sanityClient.config();
 const urlFor = (source: SanityImageSource) =>
   projectId && dataset

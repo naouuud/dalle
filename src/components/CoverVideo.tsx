@@ -1,17 +1,24 @@
 import { navbarTheme } from "../stores/nano";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect } from "preact/hooks";
 
 type Video = {
   url: string;
   color: "dark" | "light";
 };
 
-export default function CoverVideo({ videos }: { videos: Video[] }) {
-  const selected = videos[Math.floor(Math.random() * videos.length)];
+export default function CoverVideo({ videos = [] }: { videos?: Video[] }) {
+  const selected =
+    videos.length > 0
+      ? videos[Math.floor(Math.random() * videos.length)]
+      : null;
 
   useEffect(() => {
-    navbarTheme.set(selected.color);
-  }, [selected.url]);
+    navbarTheme.set(selected?.color ?? "light");
+  }, [selected?.url]);
+
+  if (!selected) {
+    return <div className="video-wrapper h-full w-full bg-neutral-100" />;
+  }
 
   return (
     <div className="video-wrapper h-full w-full">

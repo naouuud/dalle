@@ -1,19 +1,27 @@
 ---
-import type { SanityDocument } from "sanity";
+import type { SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
 
 const CONTACT_QUERY = `*[_type == 'contactInfo'][0]`
-const contactInfo = await sanityClient.fetch<SanityDocument & { phone: string, email: string}>(CONTACT_QUERY);
-const { phone, email } = contactInfo;
+const contactInfo = await sanityClient.fetch<SanityDocument & { phone?: string; email?: string }>(CONTACT_QUERY);
+const { phone, email } = contactInfo ?? {};
 ---
-<div class="contact-info flex flex-col gap-2">
-  <a href=`mailto:${email}` class="font-['Raleway'] hover:text-neutral-600 transition-colors">
-    { email }
-  </a>
-  <a href=`tel:${phone}` class="font-['Montserrat'] hover:text-neutral-600 transition-colors">
-    { phone }
-  </a>
-</div>
+{
+  (email || phone) && (
+    <div class="contact-info flex flex-col gap-2">
+      {email && (
+        <a href={`mailto:${email}`} class="font-['Raleway'] hover:text-neutral-600 transition-colors">
+          {email}
+        </a>
+      )}
+      {phone && (
+        <a href={`tel:${phone.replace(/\s/g, "")}`} class="font-['Montserrat'] hover:text-neutral-600 transition-colors">
+          {phone}
+        </a>
+      )}
+    </div>
+  )
+}
 
 <style>
   .contact-info {

@@ -1,5 +1,5 @@
 ---
-import type { SanityDocument } from "sanity";
+import type { SanityDocument } from "@sanity/client";
 import { sanityClient } from "sanity:client";
 import MainLayout from "../../layouts/main.astro"
 import ContainerLayout from "../../layouts/container.astro"
@@ -21,14 +21,16 @@ export async function getStaticPaths() {
       "videoUrl": videoItem.file.asset->url
     }
   }`;
-  const works = await sanityClient.fetch<Array<{
+  const works = (await sanityClient.fetch<Array<{
     slug: string;
     title: string;
     year: number;
     medium: string;
     body: string;
     allMedia: Array<{ type: string; image?: any; alt?: string; videoUrl?: string }>;
-  }>>(WORKS_QUERY);
+  }>>(WORKS_QUERY)) ?? [];
+
+  if (!works.length) return [];
 
   return works.map((work, index) => {
     const prevWork = index > 0 ? works[index - 1] : works[works.length - 1];

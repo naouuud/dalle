@@ -2,11 +2,11 @@
 import SocialMedia from "./SocialMedia.astro";
 import MenuText from "./MenuText.astro";
 import { sanityClient } from "sanity:client";
-import type { SanityDocument } from "sanity";
+import type { SanityDocument } from "@sanity/client";
 
 const MENU_QUERY = `*[_type == 'menu'][0]`;
-const menu = await sanityClient.fetch<SanityDocument & { menuItems: Array<{ heading: string, text: any}>}>(MENU_QUERY);
-const { menuItems } = menu; 
+const menu = await sanityClient.fetch<SanityDocument & { menuItems: Array<{ heading: string; text: any }> }>(MENU_QUERY);
+const menuItems = menu?.menuItems ?? [];
 ---
 
 <div

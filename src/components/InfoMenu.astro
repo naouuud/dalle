@@ -8,8 +8,8 @@ const menu = await sanityClient.fetch<SanityDocument & { menuItems: Array<{ head
 const menuItems = menu?.menuItems ?? [];
 ---
 
-<div class="info-menu flex flex-col gap-8">
-  <div class="flex items-start gap-6 sm:gap-10">
+<div class="info-menu flex w-full min-w-0 flex-col gap-8 self-center">
+  <div class="flex items-center gap-6 sm:gap-10">
     <nav class="flex w-max shrink-0 flex-col gap-3" aria-label="About sections">
       {
         menuItems.map((item, i) => (
@@ -25,7 +25,7 @@ const menuItems = menu?.menuItems ?? [];
       }
     </nav>
 
-    <div class="info-menu-panels min-h-[8rem] min-w-0 flex-1 -translate-y-0.5">
+    <div class="info-menu-panels min-w-0 flex-1">
       {
         menuItems.map((item, i) => (
           <div class:list={["info-menu-panel", i !== 0 && "hidden"]} data-panel={i}>

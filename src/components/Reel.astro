@@ -1,11 +1,13 @@
 ---
 import { type SanityImageSource, createImageUrlBuilder } from "@sanity/image-url";
-import { sanityClient } from "sanity:client"
+import { sanityClient } from "sanity:client";
 import { withBase } from "../utils/url";
 import "plyr/dist/plyr.css";
 
 type ReelItem = {
   imageUrl: string | null;
+  imageWidth?: number;
+  imageHeight?: number;
   media: { type: string; imageItem?: { alt?: string } };
   slug?: { current?: string };
   videoUrl: string | null;
@@ -15,59 +17,121 @@ const { reel } = Astro.props as { reel?: { reelItems?: ReelItem[] } };
 const reelItems = reel?.reelItems ?? [];
 
 const { projectId, dataset } = sanityClient.config();
-const urlFor = (source: SanityImageSource) => 
+const urlFor = (source: SanityImageSource) =>
   projectId && dataset
     ? createImageUrlBuilder({ projectId, dataset }).image(source)
     : null;
+
+const frameAspectStyle = (item: ReelItem) => {
+  if (item.media.type === "image" && item.imageWidth && item.imageHeight) {
+    return `--width: ${item.imageWidth}; --height: ${item.imageHeight};`;
+  }
+  if (item.media.type === "video") {
+    return "--width: 16; --height: 9;";
+  }
+  return "--width: 4; --height: 3;";
+};
 ---
-<div class="flex flex-col gap-0">
-    {
-      reelItems.map(({ imageUrl, media, slug, videoUrl }) => (
-          <div>
-          { media.type === "image" && imageUrl ? 
+
+<div id="reel-gallery" class="reel-gallery flex w-full flex-col gap-0">
+  {
+    reelItems.map((item) => {
+      const { imageUrl, media, slug, videoUrl } = item;
+      return (
+        <div
+          class="reel-frame w-full overflow-hidden"
+          style={frameAspectStyle(item)}
+          data-aspect-known={item.imageWidth && item.imageHeight ? "true" : undefined}
+        >
+          {media.type === "image" && imageUrl ? (
             slug?.current ? (
-              <a href={withBase(`work/${slug.current}`)}>
+              <a class="reel-link" href={withBase(`work/${slug.current}`)}>
                 <img
+                  class="reel-media"
                   src={urlFor(imageUrl)?.width(800).url()}
                   alt={media.imageItem?.alt ?? ""}
+                  loading="lazy"
+                  decoding="async"
                 />
               </a>
             ) : (
               <img
+                class="reel-media"
                 src={urlFor(imageUrl)?.width(800).url()}
                 alt={media.imageItem?.alt ?? ""}
+                loading="lazy"
+                decoding="async"
               />
-            ) : 
-              videoUrl ? (
-              <div class="reel-player">
-              <video
-                class="reel-video w-full"
-                autoplay
-                muted
-                playsinline
-                loop
-                controls
-              >
+            )
+          ) : videoUrl ? (
+            <div class="reel-player">
+              <video class="reel-video reel-media" autoplay muted playsinline loop controls>
                 <source src={videoUrl} type="video/mp4" />
               </video>
-              </div>
-              ) : null
-          }
-          </div>
-        ))
-    }
+            </div>
+          ) : null}
+        </div>
+      );
+    })
+  }
 </div>
 
 <style>
   .reel-player {
     --plyr-color-main: hsl(274, 8%, 41%);
   }
+
+  @media (min-width: 1024px) {
+    .reel-gallery.is-masonry {
+      display: grid;
+      overflow: hidden;
+      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    /* Match @masonry-grid/vanilla prerequisites: frame height comes from aspect-ratio only */
+    .reel-gallery.is-masonry .reel-frame {
+      aspect-ratio: var(--width) / var(--height);
+      min-height: 0;
+    }
+
+    .reel-gallery.is-masonry .reel-link,
+    .reel-gallery.is-masonry .reel-player {
+      display: block;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .reel-gallery.is-masonry .reel-media {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Plyr adds extra chrome that breaks computed tile heights — keep native video in masonry */
+    .reel-gallery.is-masonry .reel-player .plyr {
+      height: 100%;
+    }
+
+    .reel-gallery.is-masonry .reel-player .plyr__video-wrapper {
+      height: 100%;
+    }
+  }
 </style>
 
 <script>
   import Plyr from "plyr";
+  import { RegularMasonryGrid } from "@masonry-grid/vanilla";
+
+  const gallery = document.getElementById("reel-gallery");
+  const desktopQuery = window.matchMedia("(min-width: 1024px)");
+
+  let masonry: RegularMasonryGrid | null = null;
 
   const initPlyr = (video: HTMLVideoElement) => {
+    if (desktopQuery.matches) return;
+
     const player = new Plyr(video, {
       muted: true,
       loop: { active: true },
@@ -79,7 +143,7 @@ const urlFor = (source: SanityImageSource) =>
     });
   };
 
-  const observer = new IntersectionObserver(
+  const plyrObserver = new IntersectionObserver(
     (entries, obs) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -92,6 +156,67 @@ const urlFor = (source: SanityImageSource) =>
   );
 
   document.querySelectorAll<HTMLVideoElement>(".reel-video").forEach((video) => {
-    observer.observe(video);
+    plyrObserver.observe(video);
   });
+
+  const updateMissingAspects = () => {
+    if (!gallery) return false;
+
+    let changed = false;
+
+    gallery.querySelectorAll<HTMLElement>(".reel-frame").forEach((frame) => {
+      if (frame.dataset.aspectKnown === "true") return;
+
+      const img = frame.querySelector("img");
+      if (!img?.naturalWidth || !img.naturalHeight) return;
+
+      frame.style.setProperty("--width", String(img.naturalWidth));
+      frame.style.setProperty("--height", String(img.naturalHeight));
+      frame.dataset.aspectKnown = "true";
+      changed = true;
+    });
+
+    return changed;
+  };
+
+  const waitForImages = () =>
+    Promise.all(
+      [...(gallery?.querySelectorAll("img") ?? [])].map(
+        (img) =>
+          new Promise<void>((resolve) => {
+            if (img.complete) {
+              resolve();
+              return;
+            }
+            img.addEventListener("load", () => resolve(), { once: true });
+            img.addEventListener("error", () => resolve(), { once: true });
+          }),
+      ),
+    );
+
+  const destroyMasonry = () => {
+    masonry?.destroy();
+    masonry = null;
+    gallery?.classList.remove("is-masonry");
+  };
+
+  const layoutMasonry = async () => {
+    if (!gallery) return;
+
+    if (!desktopQuery.matches) {
+      destroyMasonry();
+      return;
+    }
+
+    await waitForImages();
+    updateMissingAspects();
+
+    destroyMasonry();
+    gallery.classList.add("is-masonry");
+    masonry = new RegularMasonryGrid(gallery);
+  };
+
+  layoutMasonry();
+  desktopQuery.addEventListener("change", () => layoutMasonry());
+  window.addEventListener("beforeunload", destroyMasonry);
 </script>

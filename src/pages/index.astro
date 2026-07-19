@@ -1,15 +1,12 @@
 ---
-import MainLayout from "../layouts/main.astro"
+import MainLayout from "../layouts/main.astro";
 import ContainerLayout from "../layouts/container.astro";
 import Reel from "../components/Reel.astro";
-import CoverVideo from "../components/CoverVideo.tsx";
+import CoverVideo from "../components/CoverVideo";
 import { sanityClient } from "sanity:client";
-import type { SanityDocument } from "@sanity/client";
+import type { SanityDocument } from "sanity";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 
-// export const GRID = false;
-
-// Fetch cover video URLs (server side)
 const VIDEO_QUERY = `*[_type == "coverVideos"][0].videos[]{
   "url": file.asset->url,
   color
@@ -21,30 +18,35 @@ const REEL_QUERY = `*[_type == "reel"][0]{
     slug,
     media,
     "imageUrl": media.imageItem.image.asset->url,
+    "imageWidth": media.imageItem.image.asset->metadata.dimensions.width,
+    "imageHeight": media.imageItem.image.asset->metadata.dimensions.height,
     "videoUrl": media.videoItem.file.asset->url,
   }
 }`;
 const reel = (await sanityClient.fetch<SanityDocument>(REEL_QUERY)) ?? { reelItems: [] };
 ---
-{
-  <MainLayout page="Artist">
-    <main class="mx-auto min-h-screen max-w-3xl lg:flex">
-      <div class="relative">
-        <div
-          class="h-screen bg-neutral-100"
-          aria-hidden="true"
-        ></div>
-        <div class="absolute inset-0">
-          <CoverVideo client:only="preact" videos={videos} />
-        </div>
-      </div>
-      <div class="mb-8">
-        <Reel reel={reel} />
-      </div>
-      <ContainerLayout>
-        <NewsletterSignup />
-      </ContainerLayout>
-    </main>
-  </MainLayout>
-}
 
+<MainLayout page="Artist">
+  <main class="mx-auto flex min-h-screen w-full max-w-3xl flex-col lg:max-w-none">
+    <!-- Hero: full-width on desktop, constrained on mobile -->
+    <section class="relative w-full shrink-0">
+      <div class="h-screen bg-neutral-100 lg:h-[85vh]" aria-hidden="true"></div>
+      <div class="absolute inset-0 lg: mb-4">
+        <CoverVideo client:only="preact" videos={videos} />
+      </div>
+    </section>
+
+    <!-- Gallery + newsletter: stacked on both breakpoints; full bleed on desktop -->
+    <div class="flex flex-col lg:w-full">
+      <section class="w-full lg:w-screen lg:relative lg:left-1/2 lg:-translate-x-1/2">
+        <Reel reel={reel} />
+      </section>
+
+      <section class="w-full">
+        <ContainerLayout class="mb-0 gap-0 lg:py-12">
+          <NewsletterSignup />
+        </ContainerLayout>
+      </section>
+    </div>
+  </main>
+</MainLayout>

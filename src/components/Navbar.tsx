@@ -22,26 +22,27 @@ export default function Navbar() {
       id="navbar"
       className={`fixed z-40 top-0 left-0 w-full flex items-center pt-4 pb-3 pl-4 pr-4 mb-8 ${theme === "dark" ? "text-white" : "text-black"}`}
     >
-      <h1 className="flex-1 text-2xl lg:text-7xl">
+      <h1 className="flex-1 text-2xl lg:text-3xl">
         <a href={import.meta.env.BASE_URL}>Rumi Dalle</a>
       </h1>
       <button
         id="menu-open"
         type="button"
-        className={`uppercase text-sm transition-colors ${
+        className={`text-sm transition-colors ${
           theme === "dark"
             ? "text-white/70 hover:text-white"
             : "text-neutral-500 hover:text-black"
         }`}
-        aria-label="Open info panel"
+        aria-label="Open about panel"
         aria-expanded="false"
         onClick={openMenu}
       >
-        {/* Info */}
-        <div class="hamburger">
-          <span></span>
-          <span></span>
-        </div>
+        <span className="inline-flex items-center gap-1 tracking-wide">
+          About
+          <span className="text-xs" aria-hidden="true">
+            →
+          </span>
+        </span>
       </button>
     </div>
   );

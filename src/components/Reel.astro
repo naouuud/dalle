@@ -13,6 +13,8 @@ type ReelItem = {
   videoUrl: string | null;
 };
 
+type Orientation = "landscape" | "portrait";
+
 const { reel } = Astro.props as { reel?: { reelItems?: ReelItem[] } };
 const reelItems = reel?.reelItems ?? [];
 
@@ -22,33 +24,38 @@ const urlFor = (source: SanityImageSource) =>
     ? createImageUrlBuilder({ projectId, dataset }).image(source)
     : null;
 
-const frameAspectStyle = (item: ReelItem) => {
-  if (item.media.type === "image" && item.imageWidth && item.imageHeight) {
-    return `--width: ${item.imageWidth}; --height: ${item.imageHeight};`;
+const getOrientation = (item: ReelItem): Orientation | null => {
+  if (item.imageWidth && item.imageHeight) {
+    return item.imageHeight > item.imageWidth ? "portrait" : "landscape";
   }
+
   if (item.media.type === "video") {
-    return "--width: 16; --height: 9;";
+    return "landscape";
   }
-  return "--width: 4; --height: 3;";
+
+  return null;
 };
 ---
 
-<div id="reel-gallery" class="reel-gallery flex w-full flex-col gap-0">
+<div id="reel-gallery" class="reel-gallery">
   {
     reelItems.map((item) => {
       const { imageUrl, media, slug, videoUrl } = item;
+      const orientation = getOrientation(item);
+      const orientationClass =
+        orientation === "portrait" ? "reel-frame--portrait" : "reel-frame--landscape";
+
       return (
         <div
-          class="reel-frame w-full overflow-hidden"
-          style={frameAspectStyle(item)}
-          data-aspect-known={item.imageWidth && item.imageHeight ? "true" : undefined}
+          class:list={["reel-frame", orientationClass, "overflow-hidden"]}
+          data-orientation-known={orientation ? "true" : undefined}
         >
           {media.type === "image" && imageUrl ? (
             slug?.current ? (
               <a class="reel-link" href={withBase(`work/${slug.current}`)}>
                 <img
                   class="reel-media"
-                  src={urlFor(imageUrl)?.width(800).url()}
+                  src={urlFor(imageUrl)?.width(1200).url()}
                   alt={media.imageItem?.alt ?? ""}
                   loading="lazy"
                   decoding="async"
@@ -57,7 +64,7 @@ const frameAspectStyle = (item: ReelItem) => {
             ) : (
               <img
                 class="reel-media"
-                src={urlFor(imageUrl)?.width(800).url()}
+                src={urlFor(imageUrl)?.width(1200).url()}
                 alt={media.imageItem?.alt ?? ""}
                 loading="lazy"
                 decoding="async"
@@ -65,7 +72,7 @@ const frameAspectStyle = (item: ReelItem) => {
             )
           ) : videoUrl ? (
             <div class="reel-player">
-              <video class="reel-video reel-media" autoplay muted playsinline loop controls>
+              <video class="reel-video" autoplay muted playsinline loop>
                 <source src={videoUrl} type="video/mp4" />
               </video>
             </div>
@@ -77,64 +84,101 @@ const frameAspectStyle = (item: ReelItem) => {
 </div>
 
 <style>
+  .reel-gallery {
+    --reel-gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .reel-frame--landscape {
+    aspect-ratio: 3 / 2;
+  }
+
+  .reel-frame--portrait {
+    aspect-ratio: 3 / 4;
+  }
+
+  .reel-link {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+  }
+
   .reel-player {
+    display: flex;
+    width: 100%;
+    height: 100%;
     --plyr-color-main: hsl(274, 8%, 41%);
   }
 
+  .reel-media {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .reel-player :global(.plyr) {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
+  }
+
+  .reel-player :global(.plyr__video-wrapper) {
+    height: 100%;
+  }
+
+  .reel-player :global(.plyr__video-wrapper video) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .reel-player :global(.plyr__controls) {
+    z-index: 2;
+  }
+
   @media (min-width: 1024px) {
-    .reel-gallery.is-masonry {
+    .reel-gallery {
+      container-type: inline-size;
       display: grid;
-      overflow: hidden;
-      gap: 12px;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--reel-gap);
+      grid-auto-rows: calc((100cqw - 3 * var(--reel-gap)) / 4 * 4 / 3);
     }
 
-    /* Match @masonry-grid/vanilla prerequisites: frame height comes from aspect-ratio only */
-    .reel-gallery.is-masonry .reel-frame {
-      aspect-ratio: var(--width) / var(--height);
-      min-height: 0;
-    }
-
-    .reel-gallery.is-masonry .reel-link,
-    .reel-gallery.is-masonry .reel-player {
-      display: block;
+    .reel-frame {
+      min-width: 0;
       height: 100%;
-      overflow: hidden;
+      aspect-ratio: unset;
     }
 
-    .reel-gallery.is-masonry .reel-media {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .reel-frame--landscape {
+      grid-column: span 2;
     }
 
-    /* Plyr adds extra chrome that breaks computed tile heights — keep native video in masonry */
-    .reel-gallery.is-masonry .reel-player .plyr {
-      height: 100%;
-    }
-
-    .reel-gallery.is-masonry .reel-player .plyr__video-wrapper {
-      height: 100%;
+    .reel-frame--portrait {
+      grid-column: span 1;
     }
   }
 </style>
 
 <script>
   import Plyr from "plyr";
-  import { RegularMasonryGrid } from "@masonry-grid/vanilla";
 
   const gallery = document.getElementById("reel-gallery");
-  const desktopQuery = window.matchMedia("(min-width: 1024px)");
-
-  let masonry: RegularMasonryGrid | null = null;
 
   const initPlyr = (video: HTMLVideoElement) => {
-    if (desktopQuery.matches) return;
+    if (video.dataset.plyrInitialized === "true") return;
+    video.dataset.plyrInitialized = "true";
 
     const player = new Plyr(video, {
       muted: true,
       loop: { active: true },
+      hideControls: false,
       controls: ["play", "progress", "current-time", "mute", "volume", "fullscreen"],
     });
     player.on("ready", () => {
@@ -159,64 +203,36 @@ const frameAspectStyle = (item: ReelItem) => {
     plyrObserver.observe(video);
   });
 
-  const updateMissingAspects = () => {
-    if (!gallery) return false;
+  const setOrientation = (frame: HTMLElement, width: number, height: number) => {
+    const orientation = height > width ? "portrait" : "landscape";
 
-    let changed = false;
+    frame.classList.remove("reel-frame--landscape", "reel-frame--portrait");
+    frame.classList.add(
+      orientation === "portrait" ? "reel-frame--portrait" : "reel-frame--landscape",
+    );
+    frame.dataset.orientationKnown = "true";
+  };
+
+  const updateMissingOrientations = () => {
+    if (!gallery) return;
 
     gallery.querySelectorAll<HTMLElement>(".reel-frame").forEach((frame) => {
-      if (frame.dataset.aspectKnown === "true") return;
+      if (frame.dataset.orientationKnown === "true") return;
 
       const img = frame.querySelector("img");
       if (!img?.naturalWidth || !img.naturalHeight) return;
 
-      frame.style.setProperty("--width", String(img.naturalWidth));
-      frame.style.setProperty("--height", String(img.naturalHeight));
-      frame.dataset.aspectKnown = "true";
-      changed = true;
+      setOrientation(frame, img.naturalWidth, img.naturalHeight);
     });
-
-    return changed;
   };
 
-  const waitForImages = () =>
-    Promise.all(
-      [...(gallery?.querySelectorAll("img") ?? [])].map(
-        (img) =>
-          new Promise<void>((resolve) => {
-            if (img.complete) {
-              resolve();
-              return;
-            }
-            img.addEventListener("load", () => resolve(), { once: true });
-            img.addEventListener("error", () => resolve(), { once: true });
-          }),
-      ),
-    );
-
-  const destroyMasonry = () => {
-    masonry?.destroy();
-    masonry = null;
-    gallery?.classList.remove("is-masonry");
-  };
-
-  const layoutMasonry = async () => {
-    if (!gallery) return;
-
-    if (!desktopQuery.matches) {
-      destroyMasonry();
+  gallery?.querySelectorAll("img").forEach((img) => {
+    if (img.complete) {
+      updateMissingOrientations();
       return;
     }
 
-    await waitForImages();
-    updateMissingAspects();
-
-    destroyMasonry();
-    gallery.classList.add("is-masonry");
-    masonry = new RegularMasonryGrid(gallery);
-  };
-
-  layoutMasonry();
-  desktopQuery.addEventListener("change", () => layoutMasonry());
-  window.addEventListener("beforeunload", destroyMasonry);
+    img.addEventListener("load", updateMissingOrientations, { once: true });
+    img.addEventListener("error", updateMissingOrientations, { once: true });
+  });
 </script>

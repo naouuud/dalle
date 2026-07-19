@@ -20,9 +20,9 @@ export default function Navbar() {
   return (
     <div
       id="navbar"
-      className={`fixed z-40 top-0 left-0 w-full flex items-center pt-4 pb-3 pl-4 pr-4 mb-8 ${theme === "dark" ? "text-white" : "text-black"}`}
+      className={`fixed z-40 top-0 left-0 w-full flex items-center pt-4 pb-3 pl-4 pr-4 lg:pr-6 mb-8 ${theme === "dark" ? "text-white" : "text-black"}`}
     >
-      <h1 className="flex-1 text-2xl lg:text-3xl">
+      <h1 className="flex-1 lg:text-xl lg:tracking-wide">
         <a href={import.meta.env.BASE_URL}>Rumi Dalle</a>
       </h1>
       <button
@@ -37,7 +37,7 @@ export default function Navbar() {
         aria-expanded="false"
         onClick={openMenu}
       >
-        <span className="inline-flex items-center gap-1 tracking-wide">
+        <span className="inline-flex items-center gap-1 tracking-wide lg:text-lg hover:cursor-pointer">
           About
           <span className="text-xs" aria-hidden="true">
             →

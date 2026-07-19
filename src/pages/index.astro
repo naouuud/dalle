@@ -43,8 +43,8 @@ const reel = (await sanityClient.fetch<SanityDocument>(REEL_QUERY)) ?? { reelIte
       </section>
 
       <section class="w-full lg:w-screen lg:relative lg:left-1/2 lg:-translate-x-1/2">
-        <ContainerLayout class="mb-0 w-full gap-0 pt-10 pb-2 lg:px-12 lg:pt-16 lg:pb-24">
-          <div class="flex w-full flex-col gap-10 lg:mx-auto lg:max-w-5xl lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-16">
+        <ContainerLayout class="mb-0 w-full gap-0 pt-10 pb-12 lg:px-12 lg:pt-16 lg:pb-24">
+          <div class="flex w-full flex-col gap-5 lg:mx-auto lg:max-w-5xl lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-16">
             <InfoMenu />
             <NewsletterSignup />
           </div>

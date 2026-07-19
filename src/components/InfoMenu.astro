@@ -10,7 +10,7 @@ const menuItems = menu?.menuItems ?? [];
 
 <div class="info-menu flex w-full min-w-0 flex-col gap-8 self-start lg:self-center">
   <div class="flex items-start gap-6 sm:gap-10 lg:items-center">
-    <nav class="flex w-max shrink-0 flex-col gap-3" aria-label="About sections">
+    <nav class="flex w-max shrink-0 flex-col gap-2 lg:gap-3" aria-label="About sections">
       {
         menuItems.map((item, i) => (
           <button
@@ -25,10 +25,14 @@ const menuItems = menu?.menuItems ?? [];
       }
     </nav>
 
-    <div class="info-menu-panels min-w-0 flex-1">
+    <div class="info-menu-panels min-w-0 flex-1 max-lg:-translate-y-0.5 max-lg:grid max-lg:[&>.info-menu-panel]:col-start-1 max-lg:[&>.info-menu-panel]:row-start-1">
       {
         menuItems.map((item, i) => (
-          <div class:list={["info-menu-panel", i !== 0 && "hidden"]} data-panel={i}>
+          <div
+            class:list={["info-menu-panel", i !== 0 && "hidden"]}
+            data-panel={i}
+            aria-hidden={i !== 0 ? "true" : "false"}
+          >
             <MenuText heading={item.heading} text={item.text} />
           </div>
         ))
@@ -42,16 +46,33 @@ const menuItems = menu?.menuItems ?? [];
 <script>
   const menuTabs = document.querySelectorAll<HTMLButtonElement>(".info-menu-tab");
   const menuPanels = document.querySelectorAll<HTMLElement>(".info-menu-panel");
+  const desktopQuery = window.matchMedia("(min-width: 1024px)");
+
+  let activeIndex = 0;
 
   const setActivePanel = (index: number) => {
+    activeIndex = index;
+
     menuTabs.forEach((tab, i) => {
       tab.setAttribute("aria-current", i === index ? "true" : "false");
       tab.classList.toggle("text-black", i === index);
       tab.classList.toggle("font-medium", i === index);
       tab.classList.toggle("text-neutral-400", i !== index);
     });
+
     menuPanels.forEach((panel, i) => {
-      panel.classList.toggle("hidden", i !== index);
+      const active = i === index;
+
+      if (desktopQuery.matches) {
+        panel.classList.toggle("hidden", !active);
+        panel.classList.remove("invisible", "pointer-events-none");
+      } else {
+        panel.classList.remove("hidden");
+        panel.classList.toggle("invisible", !active);
+        panel.classList.toggle("pointer-events-none", !active);
+      }
+
+      panel.setAttribute("aria-hidden", active ? "false" : "true");
     });
   };
 
@@ -61,6 +82,8 @@ const menuItems = menu?.menuItems ?? [];
       if (!Number.isNaN(index)) setActivePanel(index);
     });
   });
+
+  desktopQuery.addEventListener("change", () => setActivePanel(activeIndex));
 
   if (menuTabs.length) setActivePanel(0);
 </script>

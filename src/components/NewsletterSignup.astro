@@ -5,12 +5,12 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
 <section class="mx-auto w-full max-w-lg shrink-0 px-4 py-8 lg:mx-0 lg:px-0 lg:py-0">
   <div class="border border-neutral-400 px-4 py-7 text-center lg:px-8 lg:py-10">
     <div class="border-b border-neutral-300 pb-4 mb-4 lg:pb-6 lg:mb-6">
-      <h2 class="font-['Libre Franklin'] text-xs uppercase tracking-widest font-semibold text-neutral-600 lg:text-xl lg:tracking-[0.2em]">
+      <h2 class="font-['Libre Franklin'] text-sm uppercase tracking-widest font-semibold text-neutral-600 lg:text-xl lg:tracking-[0.2em]">
         Become a collector
       </h2>
     </div>
 
-    <p class="font-['Montserrat'] mb-6 text-xs italic leading-relaxed text-neutral-600 lg:mb-8 lg:text-sm">
+    <p class="font-['Montserrat'] mb-6 text-sm italic leading-relaxed text-neutral-600 lg:mb-8">
       Join the mailing list for new works, screenings, and occasional exclusive material.
     </p>
 
@@ -24,7 +24,7 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
           <label class="flex flex-col gap-2 text-left">
-            <span class="text-xs uppercase tracking-widest text-neutral-400">
+            <span class="text-sm uppercase tracking-widest text-neutral-400">
               Email
             </span>
             <input
@@ -34,22 +34,22 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
               required
               autocomplete="email"
               placeholder=""
-              class="w-full border border-neutral-300 bg-transparent px-3 py-2 text-left text-xs outline-none transition-colors placeholder:text-neutral-400 focus:border-neutral-800 lg:text-sm"
+              class="w-full border border-neutral-300 bg-transparent px-3 py-2 text-left text-sm outline-none transition-colors placeholder:text-neutral-400 focus:border-neutral-800"
             />
           </label>
 
           <button
             id="newsletter-submit"
             type="submit"
-            class="font-['Montserrat'] border border-neutral-800 px-6 py-2 text-xs uppercase tracking-widest text-neutral-800 transition-colors hover:bg-neutral-800 hover:text-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
+            class="font-['Montserrat'] border border-neutral-800 px-6 py-2 text-sm uppercase tracking-widest text-neutral-800 transition-colors hover:bg-neutral-800 hover:text-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Join
           </button>
 
-          <p id="newsletter-status" class="hidden text-xs lg:text-sm" role="status" aria-live="polite"></p>
+          <p id="newsletter-status" class="hidden text-sm" role="status" aria-live="polite"></p>
         </form>
       ) : (
-        <p class="font-['Montserrat'] text-xs text-neutral-500 lg:text-sm">
+        <p class="font-['Montserrat'] text-sm text-neutral-500">
           Mailing list signup is being configured.
         </p>
       )

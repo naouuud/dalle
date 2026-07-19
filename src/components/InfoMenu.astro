@@ -1,0 +1,66 @@
+---
+import MenuText from "./MenuText.astro";
+import { sanityClient } from "sanity:client";
+import type { SanityDocument } from "sanity";
+
+const MENU_QUERY = `*[_type == 'menu'][0]`;
+const menu = await sanityClient.fetch<SanityDocument & { menuItems: Array<{ heading: string; text: any }> }>(MENU_QUERY);
+const menuItems = menu?.menuItems ?? [];
+---
+
+<div class="info-menu flex flex-col gap-8">
+  <div class="flex items-start gap-6 sm:gap-10">
+    <nav class="flex w-max shrink-0 flex-col gap-3" aria-label="About sections">
+      {
+        menuItems.map((item, i) => (
+          <button
+            type="button"
+            data-index={i}
+            class="info-menu-tab m-0 whitespace-nowrap border-0 bg-transparent p-0 text-left uppercase text-xs leading-normal tracking-widest text-neutral-400 transition-colors hover:text-black hover:cursor-pointer lg:text-sm lg:tracking-wide"
+            aria-current={i === 0 ? "true" : "false"}
+          >
+            {item.heading}
+          </button>
+        ))
+      }
+    </nav>
+
+    <div class="info-menu-panels min-h-[8rem] min-w-0 flex-1 -translate-y-0.5">
+      {
+        menuItems.map((item, i) => (
+          <div class:list={["info-menu-panel", i !== 0 && "hidden"]} data-panel={i}>
+            <MenuText heading={item.heading} text={item.text} />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- <SocialMedia /> -->
+</div>
+
+<script>
+  const menuTabs = document.querySelectorAll<HTMLButtonElement>(".info-menu-tab");
+  const menuPanels = document.querySelectorAll<HTMLElement>(".info-menu-panel");
+
+  const setActivePanel = (index: number) => {
+    menuTabs.forEach((tab, i) => {
+      tab.setAttribute("aria-current", i === index ? "true" : "false");
+      tab.classList.toggle("text-black", i === index);
+      tab.classList.toggle("font-medium", i === index);
+      tab.classList.toggle("text-neutral-400", i !== index);
+    });
+    menuPanels.forEach((panel, i) => {
+      panel.classList.toggle("hidden", i !== index);
+    });
+  };
+
+  menuTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const index = Number(tab.dataset.index);
+      if (!Number.isNaN(index)) setActivePanel(index);
+    });
+  });
+
+  if (menuTabs.length) setActivePanel(0);
+</script>

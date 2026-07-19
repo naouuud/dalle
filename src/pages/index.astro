@@ -6,6 +6,7 @@ import CoverVideo from "../components/CoverVideo";
 import { sanityClient } from "sanity:client";
 import type { SanityDocument } from "sanity";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
+import InfoMenu from "../components/InfoMenu.astro";
 
 const VIDEO_QUERY = `*[_type == "coverVideos"][0].videos[]{
   "url": file.asset->url,
@@ -36,15 +37,17 @@ const reel = (await sanityClient.fetch<SanityDocument>(REEL_QUERY)) ?? { reelIte
       </div>
     </section>
 
-    <!-- Gallery + newsletter: stacked on both breakpoints; full bleed on desktop -->
     <div class="flex flex-col lg:w-full">
       <section class="w-full lg:w-screen lg:relative lg:left-1/2 lg:-translate-x-1/2">
         <Reel reel={reel} />
       </section>
 
       <section class="w-full lg:w-screen lg:relative lg:left-1/2 lg:-translate-x-1/2">
-        <ContainerLayout class="mb-0 gap-0 lg:py-12">
-          <NewsletterSignup />
+        <ContainerLayout class="mb-0 gap-0 pt-10 pb-2 lg:px-12 lg:py-16">
+          <div class="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-center lg:gap-16">
+            <InfoMenu />
+            <NewsletterSignup />
+          </div>
         </ContainerLayout>
       </section>
     </div>

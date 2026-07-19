@@ -5,10 +5,6 @@ import { useStore as useNanoStore } from "@nanostores/preact";
 export default function Navbar() {
   const theme = useNanoStore(navbarTheme);
 
-  const openMenu = () => {
-    window.dispatchEvent(new CustomEvent("toggle-menu"));
-  };
-
   useEffect(() => {
     const navbar = document.getElementById("navbar");
     const path = window.location.pathname;
@@ -25,29 +21,6 @@ export default function Navbar() {
       <h1 className="flex-1 lg:text-xl lg:tracking-wide">
         <a href={import.meta.env.BASE_URL}>Rumi Dalle</a>
       </h1>
-      <button
-        id="menu-open"
-        type="button"
-        className={`text-sm transition-colors ${
-          theme === "dark"
-            ? "text-white/70 hover:text-white"
-            : "text-neutral-500 hover:text-black"
-        }`}
-        aria-label="Open about panel"
-        aria-expanded="false"
-        onClick={openMenu}
-      >
-        <span className="inline-flex items-center gap-1 tracking-wide lg:text-lg hover:cursor-pointer">
-          About
-          <span className="text-xs" aria-hidden="true">
-            →
-          </span>
-        </span>
-      </button>
     </div>
   );
 }
-
-// function useStore(navbarTheme: any) {
-//   throw new Error("Function not implemented.");
-// }

@@ -1,5 +1,5 @@
 ---
-import type { SanityDocument } from "@sanity/client";
+import type { SanityDocument } from "sanity";
 import { sanityClient } from "sanity:client";
 
 const CONTACT_QUERY = `*[_type == 'contactInfo'][0]`
@@ -8,9 +8,9 @@ const { phone, email } = contactInfo ?? {};
 ---
 {
   (email || phone) && (
-    <div class="contact-info flex flex-col gap-2">
+    <div class="contact-info flex flex-col gap-2 text-[inherit]">
       {email && (
-        <a href={`mailto:${email}`} class="font-['Raleway'] hover:text-neutral-600 transition-colors">
+        <a href={`mailto:${email}`} class="font-['Montserrat'] hover:text-neutral-600 transition-colors">
           {email}
         </a>
       )}

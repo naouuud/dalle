@@ -2,15 +2,15 @@
 const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
 ---
 
-<section class="mx-auto w-full max-w-lg px-5 py-12">
+<section class="mx-auto w-full max-w-lg px-5 py-12 lg:px-0 lg:py-0">
   <div class="border border-neutral-400 px-8 py-10 text-center">
     <div class="border-b border-neutral-300 pb-6 mb-6">
-      <h2 class="font-['Libre Franklin'] text-xl uppercase tracking-[0.2em] font-semibold text-neutral-600">
+      <h2 class="font-['Libre Franklin'] text-xs uppercase tracking-widest font-semibold text-neutral-600 lg:text-xl lg:tracking-[0.2em]">
         Become a collector
       </h2>
     </div>
 
-    <p class="font-['Montserrat'] mb-8 text-sm italic text-neutral-600">
+    <p class="font-['Montserrat'] mb-8 text-xs italic leading-relaxed text-neutral-600 lg:text-sm">
       Join the mailing list for new works, screenings, and occasional exclusive material.
     </p>
 
@@ -34,7 +34,7 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
               required
               autocomplete="email"
               placeholder=""
-              class="w-full border border-neutral-300 bg-transparent px-3 py-2 text-left text-sm outline-none transition-colors placeholder:text-neutral-400 focus:border-neutral-800"
+              class="w-full border border-neutral-300 bg-transparent px-3 py-2 text-left text-xs outline-none transition-colors placeholder:text-neutral-400 focus:border-neutral-800 lg:text-sm"
             />
           </label>
 
@@ -46,10 +46,10 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
             Join
           </button>
 
-          <p id="newsletter-status" class="hidden text-sm" role="status" aria-live="polite"></p>
+          <p id="newsletter-status" class="hidden text-xs lg:text-sm" role="status" aria-live="polite"></p>
         </form>
       ) : (
-        <p class="font-['Montserrat'] text-sm text-neutral-500">
+        <p class="font-['Montserrat'] text-xs text-neutral-500 lg:text-sm">
           Mailing list signup is being configured.
         </p>
       )

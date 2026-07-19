@@ -59,16 +59,16 @@ const { title, year, medium, body, prev, next, allMedia } = Astro.props;
     ></div>
     <main class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl lg:flex">
       <ContainerLayout>
-        <div class="flex flex-col gap-4 mt-18 relative">
+        <div class="flex flex-col gap-2 mt-18 relative">
             <div class="relative">
-                <div class="flex justify-between items-baseline font-medium">
-                    <h2 class="uppercase">{title}</h2>
+                <div class="flex justify-between items-end">
+                    <h2 class="text-sm">{title}</h2>
                     <button
                         id="info-button"
                         type="button"
-                        class="uppercase text-sm text-neutral-500 hover:text-black transition-colors"
+                        class="text-xs text-neutral-500 hover:text-black transition-colors"
                     >
-                        DETAILS +
+                        More +
                     </button>
                 </div>
                 <WorkInfo year={year} medium={medium} body={body} />
@@ -94,7 +94,7 @@ const { title, year, medium, body, prev, next, allMedia } = Astro.props;
 
         const setOpen = (state: boolean) => {
             open = state;
-            infoButton.textContent = open ? "DETAILS −" : "DETAILS +";
+            infoButton.textContent = open ? "Less -" : "More +";
             workInfo.classList.toggle("max-h-0", !open);
             workInfo.classList.toggle("max-h-[50vh]", open);
             workInfo.classList.toggle("pt-0", !open);

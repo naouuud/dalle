@@ -8,7 +8,7 @@ const menu = await sanityClient.fetch<SanityDocument & { menuItems: Array<{ head
 const menuItems = menu?.menuItems ?? [];
 ---
 
-<div class="info-menu flex w-full min-w-0 flex-col gap-8 self-start lg:self-center pl-2">
+<div class="info-menu flex w-full min-w-0 flex-col gap-8 self-start lg:self-center px-4">
   <div class="flex items-start gap-6 sm:gap-10 lg:items-center">
     <nav class="flex w-max shrink-0 flex-col gap-2 lg:gap-3" aria-label="About sections">
       {
@@ -16,7 +16,7 @@ const menuItems = menu?.menuItems ?? [];
           <button
             type="button"
             data-index={i}
-            class="info-menu-tab m-0 whitespace-nowrap border-0 bg-transparent p-0 text-left uppercase text-sm leading-normal tracking-wide text-neutral-400 transition-colors hover:text-black hover:cursor-pointer lg:tracking-wide"
+            class="info-menu-tab m-0 whitespace-nowrap border-0 bg-transparent text-left uppercase text-sm leading-normal tracking-wide text-neutral-400 transition-colors hover:text-black hover:cursor-pointer lg:tracking-wide"
             aria-current={i === 0 ? "true" : "false"}
           >
             {item.heading}

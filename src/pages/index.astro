@@ -32,7 +32,7 @@ const reel = (await sanityClient.fetch<SanityDocument>(REEL_QUERY)) ?? { reelIte
     <!-- Hero: full-width on desktop, constrained on mobile -->
     <section class="relative w-full shrink-0">
       <div class="h-screen bg-neutral-100 md:h-[85vh]" aria-hidden="true"></div>
-      <div class="absolute inset-0 md:mb-0">
+      <div class="absolute inset-0 md:mb-2">
         <CoverVideo client:only="preact" videos={videos} />
       </div>
     </section>

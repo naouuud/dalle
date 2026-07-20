@@ -44,7 +44,7 @@ export default function Navbar() {
       id="navbar"
       className={`fixed z-40 top-0 left-0 w-full flex items-center pt-2 pb-3 pl-2 pr-2 transition-transform duration-300 ease-out md:pr-6 mb-8 ${theme === "dark" ? "text-white" : "text-black"}`}
     >
-      <h1 className="flex-1 text-xl md:text-2xl md:tracking-wide">
+      <h1 className="flex-1 text-lg md:text-2xl md:tracking-wide">
         <a href={import.meta.env.BASE_URL}>Rumi Dalle</a>
       </h1>
     </div>

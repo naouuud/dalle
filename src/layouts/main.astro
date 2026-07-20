@@ -4,6 +4,7 @@ import { withBase } from '../utils/url';
 const { page } = Astro.props
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer.astro';
+import FontFaces from '../components/FontFaces.astro';
 ---
 
 <html lang="en">
@@ -12,17 +13,7 @@ import Footer from '../components/Footer.astro';
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href={withBase("favicon.ico")} />
 		<title>Rumi Dalle &ndash; {page ? page : "Artist"}</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			rel="preload"
-			as="style"
-			href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=optional"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=optional"
-		/>
+		<FontFaces />
 	</head>
 	<body>
 		<div id="page" class="bg-neutral-100 transition-transform duration-500 ease-out">

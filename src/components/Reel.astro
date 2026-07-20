@@ -139,6 +139,21 @@ const getOrientation = (item: ReelItem): Orientation | null => {
 
   .reel-player :global(.plyr__controls) {
     z-index: 2;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .reel-player:hover :global(.plyr__controls) {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  .reel-player:global(.reel-player--controls-visible) :global(.plyr__controls) {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   @media (min-width: 768px) {
@@ -171,9 +186,13 @@ const getOrientation = (item: ReelItem): Orientation | null => {
 
   const gallery = document.getElementById("reel-gallery");
 
+  const isTouchControls = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
   const initPlyr = (video: HTMLVideoElement) => {
     if (video.dataset.plyrInitialized === "true") return;
     video.dataset.plyrInitialized = "true";
+
+    const wrapper = video.closest(".reel-player");
 
     const player = new Plyr(video, {
       muted: true,
@@ -185,6 +204,18 @@ const getOrientation = (item: ReelItem): Orientation | null => {
       player.muted = true;
       player.play();
     });
+
+    if (isTouchControls && wrapper instanceof HTMLElement) {
+      const showControls = (event: Event) => {
+        if (event.target instanceof Element && event.target.closest(".plyr__controls")) return;
+
+        event.stopPropagation();
+        wrapper.classList.add("reel-player--controls-visible");
+      };
+
+      wrapper.addEventListener("touchend", showControls, { passive: true });
+      wrapper.addEventListener("click", showControls);
+    }
   };
 
   const plyrObserver = new IntersectionObserver(
@@ -202,6 +233,22 @@ const getOrientation = (item: ReelItem): Orientation | null => {
   document.querySelectorAll<HTMLVideoElement>(".reel-video").forEach((video) => {
     plyrObserver.observe(video);
   });
+
+  if (isTouchControls) {
+    const hideControls = (event: Event) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+
+      gallery?.querySelectorAll<HTMLElement>(".reel-player.reel-player--controls-visible").forEach((player) => {
+        if (!player.contains(target)) {
+          player.classList.remove("reel-player--controls-visible");
+        }
+      });
+    };
+
+    document.addEventListener("touchend", hideControls, { passive: true });
+    document.addEventListener("click", hideControls);
+  }
 
   const setOrientation = (frame: HTMLElement, width: number, height: number) => {
     const orientation = height > width ? "portrait" : "landscape";

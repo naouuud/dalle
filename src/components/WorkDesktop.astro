@@ -9,14 +9,14 @@ const { title, year, medium, body, allMedia, prev, next } = Astro.props;
   <div class="mx-auto grid max-w-[1600px] grid-cols-[minmax(240px,320px)_minmax(0,1fr)] items-start gap-10 xl:grid-cols-[minmax(280px,360px)_minmax(0,1fr)] xl:gap-14">
     <aside class="sticky top-24 flex flex-col gap-8 self-start">
       <header class="space-y-3 border-b border-neutral-300 pb-6">
-        <h1 class="text-base uppercase tracking-wide">{title}</h1>
-        <p class="text-base italic text-neutral-500">{year}</p>
+        <h1 class="text-sm uppercase tracking-wide">{title}</h1>
+        <p class="text-sm italic text-neutral-500">{year}</p>
         {medium && <p class="text-sm leading-relaxed text-neutral-600">{medium}</p>}
       </header>
 
       {body && (
         <div class="max-w-sm">
-          <p class="text-base leading-relaxed text-neutral-700">{body}</p>
+          <p class="text-sm leading-relaxed text-neutral-700">{body}</p>
         </div>
       )}
 

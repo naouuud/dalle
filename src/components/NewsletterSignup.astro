@@ -10,7 +10,7 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
       </h2>
     </div>
 
-    <p class="font-['Montserrat'] mb-6 text-sm leading-relaxed text-neutral-600">
+    <p class="font-['Montserrat'] mb-6 text-sm lg:text-[0.8125rem] leading-relaxed text-neutral-600">
       Join the mailing list for new works, screenings, and occasional exclusive material.
     </p>
 
@@ -24,7 +24,7 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
           <label class="flex flex-col gap-2 text-left">
-            <span class="text-sm uppercase tracking-widest text-neutral-400">
+            <span class="text-sm lg:text-[0.8125rem] uppercase tracking-widest text-neutral-400">
               Email
             </span>
             <input
@@ -41,7 +41,7 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
           <button
             id="newsletter-submit"
             type="submit"
-            class="font-['Montserrat'] border border-neutral-800 px-5 py-1.5 text-sm uppercase tracking-[0.14em] text-neutral-800 transition-colors hover:bg-neutral-800 hover:text-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
+            class="font-['Montserrat'] border border-neutral-800 px-5 py-1.5 text-sm lg:text-[0.8125rem] uppercase tracking-[0.14em] text-neutral-800 transition-colors hover:bg-neutral-800 hover:text-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Join
           </button>
@@ -49,7 +49,7 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
           <p id="newsletter-status" class="hidden text-sm" role="status" aria-live="polite"></p>
         </form>
       ) : (
-        <p class="font-['Montserrat'] text-sm text-neutral-500">
+        <p class="font-['Montserrat'] text-sm lg:text-[0.8125rem] text-neutral-500">
           Mailing list signup is being configured.
         </p>
       )

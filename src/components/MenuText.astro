@@ -4,7 +4,7 @@ import ContactInfo from "./ContactInfo.astro";
 
 const { heading, text } = Astro.props;
 ---
-<div class="font-['Montserrat'] flex flex-col gap-3 text-sm lg:text-[0.9375rem] leading-normal tracking-wide lg:max-w-md">
+<div class="font-['Montserrat'] flex flex-col gap-3 text-sm leading-normal tracking-wide lg:leading-relaxed lg:max-w-md">
   <div class="prose prose-sm max-w-none [&_>*:first-child]:mt-0 [&_>*:last-child]:mb-0 [&_p]:my-0 [&_p]:text-[inherit] [&_p]:leading-[inherit] [&_li]:text-[inherit] [&_a]:text-[inherit]">
     {Array.isArray(text) && <PortableText value={text} />}
   </div>

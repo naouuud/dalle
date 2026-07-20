@@ -1,10 +1,10 @@
 ---
 import { withBase } from "../utils/url";
 
-const { next } = Astro.props;
+const { next, class: className = "" } = Astro.props;
 ---
 
-<nav class="py-8 text-center text-sm mb-8">
+<nav class:list={["py-8 text-center text-sm mb-8", className]}>
   <a href={withBase(`work/${next.slug}`)} class="group inline-flex flex-col items-center gap-2">
     <span class="font-medium group-hover:text-neutral-600">Follow the thread &rarr;</span>
     <span class="text-neutral-500 group-hover:text-black">{next.title}</span>

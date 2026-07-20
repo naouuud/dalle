@@ -6,6 +6,7 @@ import ContainerLayout from "../../layouts/container.astro"
 import WorkImages from "../../components/WorkImages.astro";
 import WorkInfo from "../../components/WorkInfo.astro";
 import WorkNavigation from "../../components/WorkNavigation.astro";
+import WorkDesktop from "../../components/WorkDesktop.astro";
 
 export async function getStaticPaths() {
   const WORKS_QUERY = `*[_type == "works"][0].workItems[defined(slug.current)]{
@@ -53,33 +54,47 @@ export async function getStaticPaths() {
 const { title, year, medium, body, prev, next, allMedia } = Astro.props;
 ---
 <MainLayout page={title}>
-    <div
-    id="workinfo-backdrop"
-    class="fixed inset-0 z-20 opacity-0 pointer-events-none transition-opacity duration-500"
-    ></div>
-    <main class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl md:flex">
-      <ContainerLayout>
-        <div class="flex flex-col gap-2 mt-18 relative">
-            <div class="relative">
-                <div class="flex justify-between items-end">
-                    <h2 class="text-sm">{title}</h2>
-                    <button
-                        id="info-button"
-                        type="button"
-                        class="text-sm text-neutral-500 hover:text-black transition-colors"
-                    >
-                        More +
-                    </button>
+    <div class="md:hidden">
+        <div
+        id="workinfo-backdrop"
+        class="fixed inset-0 z-20 opacity-0 pointer-events-none transition-opacity duration-500"
+        ></div>
+        <main class="transition-transform duration-500 ease-out mx-auto min-h-screen max-w-3xl">
+          <ContainerLayout>
+            <div class="flex flex-col gap-2 mt-18 relative">
+                <div class="relative">
+                    <div class="flex justify-between items-end">
+                        <h2 class="text-sm">{title}</h2>
+                        <button
+                            id="info-button"
+                            type="button"
+                            class="text-sm text-neutral-500 hover:text-black transition-colors"
+                        >
+                            More +
+                        </button>
+                    </div>
+                    <WorkInfo year={year} medium={medium} body={body} />
                 </div>
-                <WorkInfo year={year} medium={medium} body={body} />
+                <WorkImages allMedia={allMedia} />
+                <div class="relative z-30 mt-4">
+                    <WorkNavigation prev={prev} next={next} />
+                </div>
             </div>
-            <WorkImages allMedia={allMedia} />
-            <div class="relative z-30 mt-4">
-                <WorkNavigation prev={prev} next={next} />
-            </div>
-        </div>
-      </ContainerLayout>
-    </main>
+          </ContainerLayout>
+        </main>
+    </div>
+
+    <div class="hidden md:block">
+        <WorkDesktop
+            title={title}
+            year={year}
+            medium={medium}
+            body={body}
+            allMedia={allMedia}
+            prev={prev}
+            next={next}
+        />
+    </div>
 </MainLayout>
 
 <script>

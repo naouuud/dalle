@@ -2,15 +2,15 @@
 const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
 ---
 
-<section class="mx-auto w-full max-w-lg shrink-0 px-4 py-8 mb-4 lg:mx-0 lg:mb-0 lg:w-[18rem] lg:max-w-none lg:px-0 lg:py-0 xl:w-[19rem]">
-  <div class="border border-neutral-400 px-4 py-7 text-center lg:border-neutral-200 lg:bg-white lg:px-6 lg:py-7 lg:shadow-sm xl:px-7 xl:py-8">
-    <div class="border-b border-neutral-300 pb-4 mb-4 lg:border-neutral-200 lg:pb-4 lg:mb-5">
-      <h2 class="font-['Libre Franklin'] text-sm uppercase tracking-widest font-semibold text-neutral-600 lg:tracking-[0.18em]">
+<section class="mx-auto mb-4 w-full max-w-lg shrink-0 px-4 py-8 lg:mx-0 lg:mb-0 lg:w-[18rem] lg:max-w-none lg:px-0 lg:py-0 xl:w-[19rem]">
+  <div class="border border-neutral-200 bg-white px-6 py-7 text-center shadow-sm xl:px-7 xl:py-8">
+    <div class="mb-5 border-b border-neutral-200 pb-4">
+      <h2 class="font-['Libre Franklin'] text-sm font-semibold uppercase tracking-[0.18em] text-neutral-600">
         Become a collector
       </h2>
     </div>
 
-    <p class="font-['Montserrat'] mb-6 text-sm leading-relaxed text-neutral-600 lg:mb-6 lg:leading-relaxed">
+    <p class="font-['Montserrat'] mb-6 text-sm leading-relaxed text-neutral-600">
       Join the mailing list for new works, screenings, and occasional exclusive material.
     </p>
 
@@ -18,7 +18,7 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
       formId ? (
         <form
           id="newsletter-form"
-          class="newsletter-form mx-auto flex max-w-xs flex-col gap-4 lg:max-w-none lg:gap-4"
+          class="newsletter-form mx-auto flex max-w-xs flex-col gap-4 lg:max-w-none"
           novalidate
         >
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
@@ -34,14 +34,14 @@ const formId = import.meta.env.PUBLIC_FORMSPREE_FORM_ID;
               required
               autocomplete="email"
               placeholder=""
-              class="w-full border border-neutral-300 bg-transparent px-3 py-2 text-left text-sm outline-none transition-colors placeholder:text-neutral-400 focus:border-neutral-800 lg:bg-neutral-50 lg:px-3 lg:py-1.5 lg:focus:bg-white"
+              class="w-full border border-neutral-300 bg-neutral-50 px-3 py-1.5 text-left text-sm outline-none transition-colors placeholder:text-neutral-400 focus:border-neutral-800 focus:bg-white"
             />
           </label>
 
           <button
             id="newsletter-submit"
             type="submit"
-            class="font-['Montserrat'] border border-neutral-800 px-6 py-2 text-sm uppercase tracking-widest text-neutral-800 transition-colors hover:bg-neutral-800 hover:text-neutral-100 disabled:cursor-not-allowed disabled:opacity-50 lg:px-5 lg:py-1.5 lg:tracking-[0.14em]"
+            class="font-['Montserrat'] border border-neutral-800 px-5 py-1.5 text-sm uppercase tracking-[0.14em] text-neutral-800 transition-colors hover:bg-neutral-800 hover:text-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Join
           </button>

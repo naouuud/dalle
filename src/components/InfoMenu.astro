@@ -8,15 +8,15 @@ const menu = await sanityClient.fetch<SanityDocument & { menuItems: Array<{ head
 const menuItems = menu?.menuItems ?? [];
 ---
 
-<div class="info-menu flex w-full min-w-0 flex-col gap-8 self-start px-4 lg:gap-6 lg:self-start lg:px-0">
-  <div class="flex items-start gap-6 sm:gap-10 lg:items-start lg:gap-10 xl:gap-12">
-    <nav class="flex w-max shrink-0 flex-col gap-2 lg:gap-1.5" aria-label="About sections">
+<div class="info-menu flex w-full min-w-0 flex-col gap-6 self-start px-4 lg:px-0">
+  <div class="flex items-start gap-6 sm:gap-10 lg:gap-10 xl:gap-12">
+    <nav class="flex w-max shrink-0 flex-col gap-1.5" aria-label="About sections">
       {
         menuItems.map((item, i) => (
           <button
             type="button"
             data-index={i}
-            class="info-menu-tab m-0 whitespace-nowrap border-0 bg-transparent text-left uppercase text-sm leading-normal tracking-wide text-neutral-400 transition-colors hover:text-black hover:cursor-pointer lg:-ml-px lg:border-l-2 lg:border-transparent lg:pl-3 lg:tracking-[0.12em] lg:aria-[current=true]:border-neutral-900 lg:aria-[current=true]:text-neutral-900"
+            class="info-menu-tab -ml-px m-0 whitespace-nowrap border-0 border-l-2 border-transparent bg-transparent pl-3 text-left text-sm uppercase leading-normal tracking-wide text-neutral-400 transition-colors hover:cursor-pointer hover:text-black aria-[current=true]:border-neutral-900 aria-[current=true]:text-neutral-900 lg:tracking-[0.12em]"
             aria-current={i === 0 ? "true" : "false"}
           >
             {item.heading}

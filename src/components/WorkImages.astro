@@ -185,30 +185,40 @@ const imageItems = allMedia.filter((m) => m.type === "image");
 
     gallery.dataset.plyrInit = "true";
 
-    import("plyr")
-      .then(({ default: Plyr }) => {
-        const initPlyr = (video) => {
+    let plyrModule = null;
+    const loadPlyr = () =>
+      plyrModule ?? import("plyr").then((module) => {
+        plyrModule = module;
+        return module;
+      });
+
+    const initPlyr = (video) => {
+      if (video.dataset.plyrInitialized === "true") return;
+      video.dataset.plyrInitialized = "true";
+
+      loadPlyr()
+        .then(({ default: Plyr }) => {
           new Plyr(video, {
             autoplay: false,
             muted: false,
             controls: ["play", "progress", "current-time", "mute", "volume", "fullscreen"],
           });
-        };
+        })
+        .catch(() => {});
+    };
 
-        const observer = new IntersectionObserver(
-          (entries, obs) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                initPlyr(entry.target);
-                obs.unobserve(entry.target);
-              }
-            });
-          },
-          { rootMargin: "200px" },
-        );
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            initPlyr(entry.target);
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "200px" },
+    );
 
-        videos.forEach((video) => observer.observe(video));
-      })
-      .catch(() => {});
+    videos.forEach((video) => observer.observe(video));
   });
 </script>

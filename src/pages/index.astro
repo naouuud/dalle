@@ -28,17 +28,17 @@ const reel = (await sanityClient.fetch<SanityDocument>(REEL_QUERY)) ?? { reelIte
 ---
 
 <MainLayout page="Artist">
-  <main class="mx-auto flex min-h-screen w-full max-w-3xl flex-col lg:max-w-none">
+  <main class="mx-auto flex min-h-screen w-full max-w-3xl flex-col md:max-w-none">
     <!-- Hero: full-width on desktop, constrained on mobile -->
     <section class="relative w-full shrink-0">
-      <div class="h-screen bg-neutral-100 lg:h-[85vh]" aria-hidden="true"></div>
-      <div class="absolute inset-0 lg:mb-4">
+      <div class="h-screen bg-neutral-100 md:h-[85vh]" aria-hidden="true"></div>
+      <div class="absolute inset-0 md:mb-4">
         <CoverVideo client:only="preact" videos={videos} />
       </div>
     </section>
 
-    <div class="flex flex-col lg:w-full">
-      <section class="w-full lg:w-screen lg:relative lg:left-1/2 lg:-translate-x-1/2">
+    <div class="flex flex-col md:w-full">
+      <section class="w-full md:w-screen md:relative md:left-1/2 md:-translate-x-1/2">
         <Reel reel={reel} />
       </section>
 
